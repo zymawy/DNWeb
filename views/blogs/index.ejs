@@ -1,0 +1,47 @@
+<%- include('../partials/header.ejs') %>
+<%- include('../partials/nav.ejs') %>
+<main class="grid gap-3 mx-auto p-4 md:max-w-5xl md:m-auto md:px-6">
+    <section class="md:col-span-2 grid md:grid-cols-3 gap-4" id="posts-container">
+        <%- include('./blogs.ejs') %>
+    </section>
+</main>
+
+<script>
+    let page = 1;
+    const container = document.getElementById('posts-container');
+    let loading = false;
+
+    window.addEventListener('scroll', () => {
+        const containerHeight = container.offsetHeight;
+        const containerTop = container.offsetTop;
+        const scrollPosition = window.scrollY + window.innerHeight;
+
+        if (!loading && scrollPosition >= containerHeight + containerTop) {
+            loading = true;
+            page++;
+            loadMorePosts(page);
+        }
+    });
+
+
+    async function loadMorePosts(page) {
+        try {
+            const response = await fetch(`/blogs?page=${page}&scrolling=1`);
+
+            const contents = await response.text();
+
+            if (! [undefined, "", null, "No Data"].includes(contents.trim())) {
+                container.insertAdjacentHTML('beforeend', contents);
+                loading = false;
+            } else {
+                loading = true;
+            }
+        } catch (e) {
+            console.log(e);
+            loading = false;
+        }
+    }
+
+</script>
+
+<%- include('../partials/footer.ejs') %>

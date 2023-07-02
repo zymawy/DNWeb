@@ -1,0 +1,24 @@
+<% if (blogs.length) { %>
+<% blogs.forEach(blog => { %>
+    <div class="bg-white rounded-md overflow-hidden shadow-md">
+        <a href="<%= blog.getUrl() %>">
+            <img class="w-full h-48 object-cover transform transition-all duration-500 hover:scale-105" src="<%= blog.getThumbnail() %>" alt="<%= blog.getTitle() %>">
+        </a>
+        <div class="px-6 py-4">
+            <a href="<%= blog.getUrl() %>">
+                <div class="font-bold text-xl mb-2"><%= blog.getTitle() %></div>
+            </a>
+            <p class="text-gray-700 text-base"><%= blog.getSubTitle() %></p>
+        </div>
+        <div class="px-6 py-4 flex items-center justify-around space-x-2 text-sm">
+            <span class="text-blue-600"><i class="fas fa-clock"></i> <%= blog.calculateEstimatedReadTime() %> mins</span>
+            <span class="text-green-600"><i class="fas fa-user"></i> Author Name</span>
+            <span class="text-yellow-600"><i class="fas fa-eye"></i> 45 Visits</span>
+            <span class="text-red-600"><i class="fas fa-thumbs-up"></i> 30 Likes</span>
+<!--            <span class="text-gray-600"><i class="fas fa-thumbs-down"></i> 5 Dislikes</span>-->
+        </div>
+    </div>
+<% }) %>
+<% } else { %>
+No Data
+<% } %>

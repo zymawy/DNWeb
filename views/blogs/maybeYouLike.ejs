@@ -1,0 +1,24 @@
+<!-- Maybe you like section -->
+    <!-- Single card -->
+    <% if (maybeYouLikes.length)  { %>
+
+        <% maybeYouLikes.forEach(blog => { %>
+
+            <div class="bg-white rounded-md overflow-hidden shadow-md m-2">
+                <a href="<%= blog.getUrl() %>">
+                    <img class="w-full h-32 object-cover" src="<%= blog.getThumbnail() %>" alt="<%= blog.getTitle() %>">
+                </a>
+                <div class="px-6 py-4">
+                    <div class="font-bold text-xl mb-2">
+                        <a href="<%= blog.getUrl() %>">
+                            <%= blog.getTitle(17, '...') %>
+                        </a>
+                    </div>
+                </div>
+            </div>
+    <% }) %>
+
+    <% } else { %>
+        <p>There are no blogs to display...</p>
+    <% } %>
+    <!-- Add more cards as per your data -->

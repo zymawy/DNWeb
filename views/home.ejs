@@ -1,0 +1,40 @@
+<%- include('partials/header.ejs') %>
+
+<%- include('partials/nav.ejs') %>
+<main class="flex flex-wrap justify-between">
+    <!-- Blog post cards section -->
+    <section class="w-full md:w-3/4 p-4">
+        <!-- Single card -->
+        <div class="bg-white rounded-md overflow-hidden shadow-lg m-2">
+            <img class="w-full h-64 object-cover" src="path_to_image" alt="Blog image">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">Title</div>
+                <p class="text-gray-700 text-base">Subtitle</p>
+            </div>
+            <div class="px-6 py-4 flex items-center justify-between">
+                <span><i class="fas fa-clock"></i> Read Time: 4 mins</span>
+                <span><i class="fas fa-eye"></i> Visits: 45</span>
+                <span><i class="fas fa-thumbs-up"></i> Likes: 30</span>
+                <span><i class="fas fa-thumbs-down"></i> Dislikes: 5</span>
+            </div>
+        </div>
+        <!-- Add more cards as per your data -->
+    </section>
+
+    <!-- Maybe you like section -->
+    <aside class="w-full md:w-1/4 p-4">
+        <!-- Single card -->
+        <div class="bg-white rounded-md overflow-hidden shadow-lg m-2">
+            <img class="w-full h-32 object-cover" src="path_to_image" alt="Blog image">
+            <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">Title</div>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Read More
+                </button>
+            </div>
+        </div>
+        <!-- Add more cards as per your data -->
+    </aside>
+</main>
+
+<%- include('partials/footer.ejs') %>
