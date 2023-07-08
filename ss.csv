@@ -132,3 +132,10 @@
             </div>
 
             <%- include('../partials/footer.ejs') %>
+
+
+
+                   <!-- Assuming emojis is an object where the key is the emoji and the value is the count -->
+                                    <%  blog.getReactions().forEach(([emoji, count]) => { %>
+                                        <span><%= emoji %> <%= count %></span>
+                                    <% }); %>

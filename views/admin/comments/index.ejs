@@ -1,0 +1,107 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/nav.ejs') %>
+<div class="container mx-auto flex flex-wrap py-6">
+    <section class="w-full md:w-2/1 flex flex-col items-center px-3">
+        <div class="container mx-auto px-4 sm:px-12">
+            <div>
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <h2 class="text-2xl font-semibold leading-tight"><i class="fas fa-comment"></i> Comments </h2>
+                </div>
+            </div>
+            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                <div
+                        class="inline-block min-w-full shadow-md rounded-lg overflow-hidden"
+                >
+                    <% if (locals.comments && comments.length)  { %>
+                        <table class="min-w-full leading-normal">
+                            <thead>
+                            <tr>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> User Name </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Post Name </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Comment </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Status </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Created At </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"> Is Reply </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% comments.forEach(comment => { %>
+                                <tr>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="flex">
+                                            <div class="ml-3">
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    <%= locals.helpers.strLimit(comment?.user?.attributes?.full_name, 40, '...') %>
+                                                    <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                                        <span class="absolute inset-0 bg-<%= comment?.user?.attributes?.is_admin ? 'blue' : 'yellow' %>-300 opacity-50 rounded-full"></span>
+                                                        <span class="relative"><%= comment?.user?.attributes?.is_admin ? 'Admin' : 'User'  %></span>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                <a href="/blogs/<%= comment?.post?.attributes?.id + '-' + locals.helpers.slug(comment?.post?.attributes?.title) %>">
+                                                    <%= locals.helpers.strLimit(comment?.post?.attributes?.title, 40, '...') %>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <div class="ml-3">
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    <a> <%= locals.helpers.strLimit(comment.getComment(), 40, '...') %> </a>
+                                                </p>
+                                            </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"><span aria-hidden class="absolute inset-0 bg-<%= comment.isPublished() ? 'green' : 'orange' %>-300 opacity-50 rounded-full"></span><span class="relative"><%= comment.getPublishedState() %></span></span>
+                                        <p class="text-gray-900 whitespace-no-wrap"><%= comment.getPublishedAt() %></p>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <p class="text-gray-600 whitespace-no-wrap"><%= comment.getCreatedAt() %></p>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"><span aria-hidden class="absolute inset-0 bg-<%= comment.isChild() ? 'green' : 'orange' %>-300 opacity-50 rounded-full"></span><span class="relative"><%= comment.isChild() ? 'Yes' : 'No' %></span></span>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                    <% if( ! comment.isPublished()) { %>
+                                        <button onClick="approve(<%= comment.getId() %>)" class="inline-flex items-center hover:bg-green-700 text-white font-bold rounded px-4 py-2 text-sm border bg-green-400">
+                                            <i class="fas fa-check"></i>
+                                            Approve
+                                        </button>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        No comments yat <a href="/admin/blogs/create" class="button"> create One</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+    <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
+    </aside>
+</div>
+<script>
+    function approve(commentId) {
+        const isConfirmed = confirm("Sure you want to approve comment?");
+
+        if (isConfirmed === false) {
+            return;
+        }
+
+        fetch(`/admin/blogs/comments/${commentId}`, {
+            method: "PUT",
+        }).then((res) => res.json())
+            .then((res) => location.reload());
+    }
+</script>
+<%- include('../partials/footer.ejs') %>

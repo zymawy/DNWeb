@@ -39,30 +39,28 @@ class Login {
          * We have va;datpom error
          */
         if (result.isEmpty() === false) {
-            return res.send({ errors: result.array() });
+            return res.status(422).send({ errors: result.array() });
         }
         //
         const {email, password} = req.body;
 
-        let alreadyInDatabase = await User.findBy('email', email);
+        let alreadyInDatabase = await (new User).findBy({'email': email});
 
         // in case
-        if (! alreadyInDatabase) {
+        if (alreadyInDatabase && ! alreadyInDatabase.isLoaded()) {
 
             return res.status(422).send({ errors: [{"value": email, "msg": "User Not In Our Records ", "path": "email",}]});
         }
 
-        let user = null;
         try {
-            let isSignedIn = await hashPassword(password, alreadyInDatabase[0].password, false);
+            let isSignedIn = await hashPassword(password, alreadyInDatabase?.attributes?.password, false);
 
             if (! isSignedIn) {
                 throw new Error('Invalid Login!')
             }
 
-            user = alreadyInDatabase[0];
 
-            const token = createToken(user.id);
+            const token = createToken(alreadyInDatabase?.attributes?.id);
 
             res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
 
@@ -72,7 +70,7 @@ class Login {
         }
 
 
-        return res.status(200).json({user:{id: user.id, isAdmin: user.is_admin}});
+        return res.status(200).json({user:{id: alreadyInDatabase?.attributes?.id, isAdmin: alreadyInDatabase?.attributes?.is_admin}});
 
     }
     register(req, res, next) {
@@ -107,7 +105,6 @@ class Login {
         // all good ? let's create user
         let data = await (new User()).create({email, password: hashedPassword, full_name, is_admin: 0});
 
-        console.log(data)
         const token = createToken(data?.lastID);
 
         res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
@@ -116,9 +113,9 @@ class Login {
     }
 
     logout(req, res, next) {
-
         res.cookie('jwt', '', {maxAge: 1 });
 
+        console.log('Log Out')
         return res.redirect('/auth/login');
     }
 }

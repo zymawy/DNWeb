@@ -35,7 +35,7 @@ class Tag extends BaseModel{
         };
     }
 
-    findBy(params, withRelations = []) {
+    findBys(params, withRelations = []) {
         let conditions = Object.keys(params).map(field => `${this.pivotTable}.${field} = ?`).join(' AND ');
 
         let bindings = Object.values(params);

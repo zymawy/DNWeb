@@ -41,7 +41,7 @@ CREATE TABLE posts(
                       subtitle TEXT NULL,
                       created_at DATETIME NOT NULL,
                       deleted_at DATETIME NULL,
-                      modified_at DATETIME NOT NULL,
+                      updated_at DATETIME NOT NULL,
                       author_name TEXT NULL,
                       read_visits INTEGER NULL
 );
@@ -109,3 +109,10 @@ CREATE INDEX posts_likes_post_id_likes_id_index ON posts_likes(post_id, likes_id
 CREATE INDEX posts_user_id_id_index ON posts(user_id, id);
 
 CREATE INDEX posts_likes_post_id_user_id_index ON posts_likes(post_id, user_id);
+
+
+INSERT INTO `general_settings` (`key`, `value`, `mate_data`) VALUES
+                                                                 ('title', 'Blogging Tools!', '{}'),
+                                                                 ('keywords', 'blog,seo,university of london, london, uol', '{}'),
+                                                                 ('author', 'Hamza Zymawy', '{}'),
+                                                                 ('subtitle', 'Tool For Writers!', '{}');

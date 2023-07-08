@@ -1,10 +1,9 @@
 <%- include('../partials/header.ejs') %>
 
     <%- include('../partials/nav.ejs') %>
-    <div class="container mx-auto flex flex-wrap py-8">
+    <div class="container mx-auto flex flex-wrap py-6">
         <section class="w-full md:w-2/1 flex flex-col items-center px-3">
             <div class="container mx-auto px-4 sm:px-12">
-                <div class="py-8">
                     <div>
                         <div class="inline-flex rounded-md shadow-sm" role="group">
                             <h2 class="text-2xl font-semibold leading-tight"><i class="fas fa-blog"></i> Posts </h2>
@@ -12,302 +11,74 @@
                                 <i class="fas fa-plus"></i>
                                 Create
                             </a>
-<!--                            <button type="button" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">-->
-<!--                                <svg aria-hidden="true" class="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg>-->
-<!--                                Profile-->
-<!--                            </button>-->
-<!--                            <button type="button" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">-->
-<!--                                <svg aria-hidden="true" class="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"></path></svg>-->
-<!--                                Settings-->
-<!--                            </button>-->
-<!--                            <button type="button" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">-->
-<!--                                <svg aria-hidden="true" class="w-4 h-4 mr-2 fill-current" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M2 9.5A3.5 3.5 0 005.5 13H9v2.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 15.586V13h2.5a4.5 4.5 0 10-.616-8.958 4.002 4.002 0 10-7.753 1.977A3.5 3.5 0 002 9.5zm9 3.5H9V8a1 1 0 012 0v5z" clip-rule="evenodd"></path></svg>-->
-<!--                                Downloads-->
-<!--                            </button>-->
                         </div>
-
-                        <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
                     </div>
                     <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                         <div
                                 class="inline-block min-w-full shadow-md rounded-lg overflow-hidden"
                         >
-                            <% if (blogs.length)  { %>
+                            <% if (posts.length)  { %>
                             <table class="min-w-full leading-normal">
                                 <thead>
                                 <tr>
-                                    <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                                    >
-                                        Name
-                                    </th>
-                                    <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                                    >
-                                        Author
-                                    </th>
-                                    <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                                    >
-                                        Published At / Due
-                                    </th>
-                                    <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
-                                    >
-                                        Status
-                                    </th>
-                                    <th
-                                            class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"
-                                    ></th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Name </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider" >Author </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Published At / Due </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status </th>
+                                    <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <% blogs.forEach(blog => { %>
+                                <% posts.forEach(blog => { %>
                                     <tr>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                             <div class="flex">
                                                 <div class="flex-shrink-0 w-10 h-10">
                                                     <img
                                                             class="w-full h-full rounded-full"
-                                                            src="<%= blog.image %>"
+                                                            src="<%= blog.getThumbnail() %>"
                                                             alt=""
                                                     />
                                                 </div>
                                                 <div class="ml-3">
                                                     <p class="text-gray-900 whitespace-no-wrap">
-                                                        <a href="/admin/blogs/<%= blog.id %>"> <%= blog.name %> </a>
+                                                        <a href="/admin/blogs/<%= blog.getId() %>"> <%= locals.helpers.strLimit(blog.getTitle(), 40, '...') %> </a>
                                                     </p>
-                                                    <p class="text-gray-600 whitespace-no-wrap">000004</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                                             <p class="text-gray-900 whitespace-no-wrap">
-                                                <%= blog?.author?.full_name || 'Admin' %>
+                                                <%= blog?.user?.attributes?.full_name || 'Admin' %>
                                             </p>
-                                            <span
-                                                    class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
-                                            >
-                                                member since
-                                            <span aria-hidden class="absolute inset-0 bg-orange-300 opacity-50 rounded-full">
-                                            </span>
-                                                <span class="relative"><%= blog?.author?.created_at ?? '2031-11-11' %></span>
-                                            </span>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                            <p class="text-gray-900 whitespace-no-wrap"><%= blog.published_at %></p>
-                                            <p class="text-gray-600 whitespace-no-wrap">Due in 3 days</p>
+                                            <p class="text-gray-900 whitespace-no-wrap"><%= blog.getPublishedAt() %></p>
+                                            <p class="text-gray-600 whitespace-no-wrap"><%= blog.getPublishedAtForHumans() %></p>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                <span
-                        class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"
-                >
-                  <span
-                          aria-hidden
-                          class="absolute inset-0 bg-green-200 opacity-50 rounded-full"
-                  ></span>
-                  <span class="relative">Paid</span>
-                </span>
+                                                <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"><span aria-hidden class="absolute inset-0 bg-<%= blog.isPublished() ? 'green' : 'orange' %>-300 opacity-50 rounded-full"></span><span class="relative"><%= blog.getPublishedState() %></span></span>
                                         </td>
                                         <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
 
-
-                                            <button id="dropdownMenuIconHorizontalButton" data-dropdown-toggle="dropdownDotsHorizontal" class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-900 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none dark:text-white focus:ring-gray-50 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-600" type="button">
-                                                <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
-                                            </button>
-
-                                            <!-- Dropdown menu -->
-                                            <div id="dropdownDotsHorizontal" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-20 dark:bg-gray-700 dark:divide-gray-600">
-                                                <ul class="text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+                                                <ul class="flex text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
                                                     <li>
-                                                        <a href="#" class="block px-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white bg-green-100">
+                                                        <a href="/admin/blogs/<%= blog.getId() %>/edit" class="inline-flex items-center hover:bg-green-700 text-white font-bold rounded px-4 py-2 text-sm border bg-green-500">
                                                             <i class="fas fa-edit"></i>
                                                             Edit
                                                         </a>
                                                     </li>
                                                     <li>
-                                                        <a href="#" class="block px-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white bg-red-500">
+                                                        <button onClick="deletePost(<%= blog.getId() %>)" class="inline-flex items-center hover:bg-red-700 text-white font-bold rounded px-4 py-2 text-sm border bg-red-500">
                                                             <i class="fas fa-trash"></i>
                                                             Delete
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="block px-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white bg-black">
-                                                            <i class="fas fa-eye"></i>
-                                                            View
-                                                        </a>
+                                                        </button>
                                                     </li>
                                                 </ul>
-                                            </div>
 
                                         </td>
                                     </tr>
                                 <% }) %>
-<!--                                <tr>-->
-<!--                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">-->
-<!--                                        <div class="flex">-->
-<!--                                            <div class="flex-shrink-0 w-10 h-10">-->
-<!--                                                <img-->
-<!--                                                        class="w-full h-full rounded-full"-->
-<!--                                                        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"-->
-<!--                                                        alt=""-->
-<!--                                                />-->
-<!--                                            </div>-->
-<!--                                            <div class="ml-3">-->
-<!--                                                <p class="text-gray-900 whitespace-no-wrap">-->
-<!--                                                    Michael Roberts-->
-<!--                                                </p>-->
-<!--                                                <p class="text-gray-600 whitespace-no-wrap">000003</p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">-->
-<!--                                        <p class="text-gray-900 whitespace-no-wrap">$214,000</p>-->
-<!--                                        <p class="text-gray-600 whitespace-no-wrap">USD</p>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">-->
-<!--                                        <p class="text-gray-900 whitespace-no-wrap">Sept 25, 2019</p>-->
-<!--                                        <p class="text-gray-600 whitespace-no-wrap">Due in 6 days</p>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">-->
-<!--                <span-->
-<!--                        class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"-->
-<!--                >-->
-<!--                  <span-->
-<!--                          aria-hidden-->
-<!--                          class="absolute inset-0 bg-green-200 opacity-50 rounded-full"-->
-<!--                  ></span>-->
-<!--                  <span class="relative">Paid</span>-->
-<!--                </span>-->
-<!--                                    </td>-->
-<!--                                    <td-->
-<!--                                            class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right"-->
-<!--                                    >-->
-<!--                                        <button-->
-<!--                                                type="button"-->
-<!--                                                class="inline-block text-gray-500 hover:text-gray-700"-->
-<!--                                        >-->
-<!--                                            <svg-->
-<!--                                                    class="inline-block h-6 w-6 fill-current"-->
-<!--                                                    viewBox="0 0 24 24"-->
-<!--                                            >-->
-<!--                                                <path-->
-<!--                                                        d="M12 6a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4zm-2 6a2 2 0 104 0 2 2 0 00-4 0z"-->
-<!--                                                />-->
-<!--                                            </svg>-->
-<!--                                        </button>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">-->
-<!--                                        <div class="flex">-->
-<!--                                            <div class="flex-shrink-0 w-10 h-10">-->
-<!--                                                <img-->
-<!--                                                        class="w-full h-full rounded-full"-->
-<!--                                                        src="https://images.unsplash.com/photo-1540845511934-7721dd7adec3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&w=160&h=160&q=80"-->
-<!--                                                        alt=""-->
-<!--                                                />-->
-<!--                                            </div>-->
-<!--                                            <div class="ml-3">-->
-<!--                                                <p class="text-gray-900 whitespace-no-wrap">-->
-<!--                                                    Devin Childs-->
-<!--                                                </p>-->
-<!--                                                <p class="text-gray-600 whitespace-no-wrap">000002</p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">-->
-<!--                                        <p class="text-gray-900 whitespace-no-wrap">$20,000</p>-->
-<!--                                        <p class="text-gray-600 whitespace-no-wrap">USD</p>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">-->
-<!--                                        <p class="text-gray-900 whitespace-no-wrap">Sept 14, 2019</p>-->
-<!--                                        <p class="text-gray-600 whitespace-no-wrap">Due in 2 weeks</p>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">-->
-<!--                <span-->
-<!--                        class="relative inline-block px-3 py-1 font-semibold text-orange-900 leading-tight"-->
-<!--                >-->
-<!--                  <span-->
-<!--                          aria-hidden-->
-<!--                          class="absolute inset-0 bg-orange-200 opacity-50 rounded-full"-->
-<!--                  ></span>-->
-<!--                  <span class="relative">Pending</span>-->
-<!--                </span>-->
-<!--                                    </td>-->
-<!--                                    <td-->
-<!--                                            class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right"-->
-<!--                                    >-->
-<!--                                        <button-->
-<!--                                                type="button"-->
-<!--                                                class="inline-block text-gray-500 hover:text-gray-700"-->
-<!--                                        >-->
-<!--                                            <svg-->
-<!--                                                    class="inline-block h-6 w-6 fill-current"-->
-<!--                                                    viewBox="0 0 24 24"-->
-<!--                                            >-->
-<!--                                                <path-->
-<!--                                                        d="M12 6a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4zm-2 6a2 2 0 104 0 2 2 0 00-4 0z"-->
-<!--                                                />-->
-<!--                                            </svg>-->
-<!--                                        </button>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
-<!--                                <tr>-->
-<!--                                    <td class="px-5 py-5 bg-white text-sm">-->
-<!--                                        <div class="flex">-->
-<!--                                            <div class="flex-shrink-0 w-10 h-10">-->
-<!--                                                <img-->
-<!--                                                        class="w-full h-full rounded-full"-->
-<!--                                                        src="https://images.unsplash.com/photo-1522609925277-66fea332c575?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.2&h=160&w=160&q=80"-->
-<!--                                                        alt=""-->
-<!--                                                />-->
-<!--                                            </div>-->
-<!--                                            <div class="ml-3">-->
-<!--                                                <p class="text-gray-900 whitespace-no-wrap">-->
-<!--                                                    Frederick Nicholas-->
-<!--                                                </p>-->
-<!--                                                <p class="text-gray-600 whitespace-no-wrap">000001</p>-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 bg-white text-sm">-->
-<!--                                        <p class="text-gray-900 whitespace-no-wrap">$12,000</p>-->
-<!--                                        <p class="text-gray-600 whitespace-no-wrap">USD</p>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 bg-white text-sm">-->
-<!--                                        <p class="text-gray-900 whitespace-no-wrap">Sept 6, 2019</p>-->
-<!--                                        <p class="text-gray-600 whitespace-no-wrap">-->
-<!--                                            Due 3 weeks ago-->
-<!--                                        </p>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 bg-white text-sm">-->
-<!--                <span-->
-<!--                        class="relative inline-block px-3 py-1 font-semibold text-red-900 leading-tight"-->
-<!--                >-->
-<!--                  <span-->
-<!--                          aria-hidden-->
-<!--                          class="absolute inset-0 bg-red-200 opacity-50 rounded-full"-->
-<!--                  ></span>-->
-<!--                  <span class="relative">Overdue</span>-->
-<!--                </span>-->
-<!--                                    </td>-->
-<!--                                    <td class="px-5 py-5 bg-white text-sm text-right">-->
-<!--                                        <button-->
-<!--                                                type="button"-->
-<!--                                                class="inline-block text-gray-500 hover:text-gray-700"-->
-<!--                                        >-->
-<!--                                            <svg-->
-<!--                                                    class="inline-block h-6 w-6 fill-current"-->
-<!--                                                    viewBox="0 0 24 24"-->
-<!--                                            >-->
-<!--                                                <path-->
-<!--                                                        d="M12 6a2 2 0 110-4 2 2 0 010 4zm0 8a2 2 0 110-4 2 2 0 010 4zm-2 6a2 2 0 104 0 2 2 0 00-4 0z"-->
-<!--                                                />-->
-<!--                                            </svg>-->
-<!--                                        </button>-->
-<!--                                    </td>-->
-<!--                                </tr>-->
                                 </tbody>
                             </table>
                             <% } else { %>
@@ -315,12 +86,23 @@
                             <% } %>
                         </div>
                     </div>
-                </div>
-            </div></div>
+            </div>
         </section>
-        <!-- Sidebar Section -->
         <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
         </aside>
     </div>
+<script>
+    function deletePost(postId) {
+        const isConfirmed = confirm("Sure you want to delete post?");
 
+        if (isConfirmed === false) {
+            return;
+        }
+
+         fetch(`/admin/blogs/${postId}`, {
+            method: "DELETE",
+        }).then((res) => res.json())
+         .then((res) => location.reload());
+    }
+</script>
 <%- include('../partials/footer.ejs') %>

@@ -1,32 +1,54 @@
-<!-- Sidebar Section -->
-<% if (typeof sidebarInfo !== 'undefined') { %>
-<aside class="w-full md:w-1/3 flex flex-col items-center px-3">
-
-    <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-        <p class="text-xl font-semibold pb-5">About Us</p>
-        <p class="pb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas mattis est eu odio sagittis tristique. Vestibulum ut finibus leo. In hac habitasse platea dictumst.</p>
-        <a href="#" class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-4">
-            Get to know us
-        </a>
-    </div>
-
-    <div class="w-full bg-white shadow flex flex-col my-4 p-6">
-        <p class="text-xl font-semibold pb-5">Instagram</p>
-        <div class="grid grid-cols-3 gap-3">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=1">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=2">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=3">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=4">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=5">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=6">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=7">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=8">
-            <img class="hover:opacity-75" src="https://source.unsplash.com/collection/1346951/150x150?sig=9">
+<div class="w-full md:w-1/3 px-3">
+    <div class="bg-white rounded shadow p-6">
+        <h2 class="text-2xl font-bold mb-6">Sidebar</h2>
+        <div class="mb-6">
+            <label for="status" class="block text-lg font-bold mb-2">Status</label>
+            <select id="status" name="status"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                    form="create-post"
+            >
+                <option value="unpublished">Unpublished</option>
+                <option value="published">published</option>
+            </select>
+            <div id="status_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
         </div>
-        <a href="#" class="w-full bg-blue-800 text-white font-bold text-sm uppercase rounded hover:bg-blue-700 flex items-center justify-center px-2 py-3 mt-6">
-            <i class="fab fa-instagram mr-2"></i> Follow @dgrzyb
-        </a>
-    </div>
 
-</aside>
-<% } %>
+        <div class="mb-6">
+            <% if(locals.post) { %>
+                <img class="w-full h-64 object-cover" src="<%= locals.post.getThumbnail() %>" alt="Blog image">
+            <% } %>
+
+            <label for="image" class="block text-lg font-bold mb-2">Image Uploader:</label>
+            <input form="create-post" type="file" id="image" name="image" class="w-full">
+            <div id="image_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
+        </div>
+        <div class="mb-6">
+            <label for="tags" class="block text-lg font-bold mb-2">Tags:</label>
+            <select id="tags" name="tags"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                    multiple=""
+                    data-type="tags"
+            >
+                <% tags.forEach(tag => { %>
+                    <option value="<%= tag?.attributes?.id %>" <%= locals.postTags && locals.postTags.includes(tag?.attributes?.id) ? 'selected' : '' %>>
+                        <%= tag?.attributes?.name %>
+                    </option>
+                <% }); %>
+            </select>
+            <div id="tags_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
+        </div>
+        <div class="mb-6">
+            <label for="categories" class="block text-lg font-bold mb-2">Categories:</label>
+            <select id="categories" name="categories" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" multiple data-type="categories">
+                <% categories.forEach(category => { %>
+                    <option value="<%= category?.attributes?.id %>"
+                            <%= locals.postCategory && locals.postCategory.includes(category?.attributes?.id) ? 'selected' : '' %>
+                    >
+                        <%= category?.attributes?.name %>
+                    </option>
+                <% }); %>
+            </select>
+            <div id="categories_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
+        </div>
+    </div>
+</div>

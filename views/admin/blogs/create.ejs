@@ -1,60 +1,261 @@
 <%- include('../partials/header.ejs') %>
-<body class="bg-white font-family-karla">
 
 <%- include('../partials/nav.ejs') %>
 
-<div class="container mx-auto flex flex-wrap py-6">
+<div class="container mx-auto py-6">
+    <div class="flex flex-wrap px-3">
+        <div class="w-full md:w-2/3 mb-4 md:mb-0">
+            <div class="bg-white rounded shadow p-6">
+                <h2 class="text-2xl font-bold mb-6">Create Blog Post</h2>
+                <form id="create-post" action="/admin/blogs/create" enctype="multipart/form-data">
+                        <input type="hidden" id="post_id" value="<%= locals.post ? locals.post.getId() : '' %>" name="post_id" />
+                    <div class="mb-6">
+                        <label for="title" class="block text-lg font-bold mb-2">Post Title:</label>
+                        <input value="<%= locals.post ? post.getTitle() : '' %>"
+                                type="text" id="title" name="title" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+                        <div id="title_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
+                    </div>
+                    <div class="mb-6">
+                        <label for="subtitle" class="block text-lg font-bold mb-2">Subtitle:</label>
+                        <input
+                                type="text" id="subtitle" name="subtitle"
+                                class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                                value="<%= locals.post ? post.getSubTitle() : '' %>"
+                        >
+                        <div id="subtitle_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
+                    </div>
+                    <div class="mb-6">
+                        <div class="container">
+                            <div id="toolbar">
+                            </div>
+                            <div id="editor" style="height: 400px"></div>
+                        </div>
+                        <div id="desc_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Submit</button>
+                </form>
+            </div>
+        </div>
+        <%- include('../partials/sidebar.ejs') %>
+    </div>
 
-    <!-- Post Section -->
-    <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-        <form>
-            <div class="relative z-0 w-full mb-6 group">
-                <input type="email" name="floating_email" id="floating_email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                <label for="floating_email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email address</label>
-            </div>
-            <div class="relative z-0 w-full mb-6 group">
-                <input type="password" name="floating_password" id="floating_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                <label for="floating_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
-            </div>
-            <div class="relative z-0 w-full mb-6 group">
-                <input type="password" name="repeat_password" id="floating_repeat_password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                <label for="floating_repeat_password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
-            </div>
-            <div class="grid md:grid-cols-2 md:gap-6">
-                <div class="relative z-0 w-full mb-6 group">
-                    <input type="text" name="floating_first_name" id="floating_first_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                    <label for="floating_first_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">First name</label>
-                </div>
-                <div class="relative z-0 w-full mb-6 group">
-                    <input type="text" name="floating_last_name" id="floating_last_name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                    <label for="floating_last_name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Last name</label>
-                </div>
-            </div>
-            <div class="grid md:grid-cols-2 md:gap-6">
-                <div class="relative z-0 w-full mb-6 group">
-                    <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="floating_phone" id="floating_phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                    <label for="floating_phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number (123-456-7890)</label>
-                </div>
-                <div class="relative z-0 w-full mb-10 group">
-                    <label for="editorjs"></label><textarea placeholder="Welcome" cols="100" id="editorjs"></textarea>
-                    <!--                    <input type="text" name="floating_company" id="floating_company" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />-->
-                    <!--                    <label for="floating_company" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Company (Ex. Google)</label>-->
-                </div>
-            </div>
-            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-        </form>
-    </section>
-
-    <%- include('../partials/sidebar.ejs') %>
 </div>
 
+
 <script>
-    import EditorJS from '@editorjs/editorjs';
-    const editor = new EditorJS({
-        /**
-         * Id of Element that should contain Editor instance
-         */
-        holder: 'editorjs'
+    // https://stackoverflow.com/a/7394787/6531160
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        console.log(html,txt.value )
+        return txt.value;
+    }
+
+    const form = document.getElementById('create-post')
+    var tags = [],
+    categories = [];
+
+    <% if (locals.postCategory) { %>
+    categories = [<%= locals.postCategory %>]
+    <% } %>
+
+    <% if (locals.postTags) { %>
+    tags = [<%= locals.postTags %>]
+    <% } %>
+
+    const editor = new Quill('#editor', {
+        theme: 'snow',
+        placeholder: 'Let`s write an awesome posts!'
+    });
+
+    // in case it's edit le'ts append the desc...
+    <% if (locals.post) { %>
+        editor.pasteHTML(decodeHtml('<%- post.getDescription() %>'))
+    <% } %>
+    // Pass single element
+    const elements = document.querySelectorAll('select[multiple]');
+    const choicesOptions = {
+        silent: false,
+        items: [],
+        choices: [],
+        renderChoiceLimit: -1,
+        maxItemCount: -1,
+        addItems: true,
+        addItemFilter: null,
+        removeItems: true,
+        removeItemButton: false,
+        editItems: false,
+        allowHTML: true,
+        duplicateItemsAllowed: true,
+        delimiter: ',',
+        paste: true,
+        searchEnabled: true,
+        searchChoices: true,
+        searchFloor: 1,
+        searchResultLimit: 4,
+        searchFields: ['label', 'value'],
+        position: 'auto',
+        resetScrollPosition: true,
+        shouldSort: true,
+        shouldSortItems: false,
+        placeholder: true,
+        placeholderValue: 'Select...',
+        searchPlaceholderValue: null,
+        prependValue: null,
+        appendValue: null,
+        renderSelectedChoices: 'auto',
+        loadingText: 'Loading...',
+        noResultsText: 'No results found',
+        noChoicesText: 'No choices to choose from',
+        itemSelectText: 'Press to select',
+        uniqueItemText: 'Only unique values can be added',
+        customAddItemText: 'Only values matching specific conditions can be added',
+        addItemText: (value) => {
+            return `Press Enter to add <b>"${value}"</b>`;
+        },
+        maxItemText: (maxItemCount) => {
+            return `Only ${maxItemCount} values can be added`;
+        },
+        valueComparer: (value1, value2) => {
+            return value1 === value2;
+        },
+        classNames: {
+            containerOuter: 'choices',
+            containerInner: 'choices__inner',
+            input: 'choices__input',
+            inputCloned: 'choices__input--cloned',
+            list: 'choices__list',
+            listItems: 'choices__list--multiple',
+            listSingle: 'choices__list--single',
+            listDropdown: 'choices__list--dropdown',
+            item: 'choices__item',
+            itemSelectable: 'choices__item--selectable',
+            itemDisabled: 'choices__item--disabled',
+            itemChoice: 'choices__item--choice',
+            placeholder: 'choices__placeholder',
+            group: 'choices__group',
+            groupHeading: 'choices__heading',
+            button: 'choices__button',
+            activeState: 'is-active',
+            focusState: 'is-focused',
+            openState: 'is-open',
+            disabledState: 'is-disabled',
+            highlightedState: 'is-highlighted',
+            selectedState: 'is-selected',
+            flippedState: 'is-flipped',
+            loadingState: 'is-loading',
+            noResults: 'has-no-results',
+            noChoices: 'has-no-choices'
+        },
+        fuseOptions: {
+            includeScore: true
+        },
+        labelId: '',
+        callbackOnInit: null,
+        callbackOnCreateTemplates: null
+    };
+    elements.forEach((element) => {
+        const choices = new Choices(element, choicesOptions);
+
+        const type =  element?.dataset?.type;
+        if (type === 'tags') {
+            console.log(tags)
+            choices.setChoiceByValue(tags)
+        } else if(type === 'categories') {
+            console.log(categories)
+            choices.setChoiceByValue(categories)
+        }
+        element.addEventListener(
+            'addItem',
+            function(event) {
+
+                // tags.push(event.detail.value.trim());
+                // do something creative here...
+                const type = event?.srcElement?.dataset?.type;
+                if (type === 'tags') {
+                    console.log(type, 'tags')
+                    tags.push(event.detail.value.trim())
+                } else if(type === 'categories') {
+                    console.log(type, 'categories')
+                    categories.push(event.detail.value.trim())
+                }
+            },
+            false,
+        );
+    })
+
+    const statusElement = document.getElementById('status');
+    const statusChoice = new Choices(statusElement, choicesOptions);
+
+    // in case it's edit le'ts append the desc...
+    <% if (locals.post) { %>
+    statusChoice.setChoiceByValue('<%= post.getPublishedState() %>')
+    <% } %>
+
+    form.addEventListener('submit', function (evt)  {
+        evt.preventDefault();
+
+        const title = document.querySelector('input#title').value;
+        const subtitle = document.querySelector('input#subtitle').value;
+        const status = document.querySelector('select#status').value;
+        const image = document.querySelector('input#image');
+        const postId = document.querySelector('input#post_id').value;
+        let desc = editor.root.innerHTML;
+
+        // when the `<p><br></p>` is the value that mean the desc is empty..
+        if (desc == '<p><br></p>') {
+            desc = '';
+        }
+        const formData = new FormData()
+        formData.append('image', image.files[0])
+        formData.append('title', title);
+        formData.append('status', status);
+        formData.append('desc', desc);
+        formData.append('subtitle', subtitle);
+        categories.forEach((category) => {
+            formData.append('categories[]', category);
+        })
+
+        tags.forEach((tag) => {
+            formData.append('tags[]', tag);
+        })
+
+        let uri = `/admin/blogs`,
+            method = 'POST';
+        if (postId) {
+            uri += `/${postId}`
+            method = "PATCH"
+        }
+
+        fetch(uri, {
+            method: method,
+            body: formData,
+        })
+            .then(async data => {
+                const response = await data.json();
+                console.log(response)
+                const { status } = data;
+
+                if (status === 422 && response.errors) {
+                    // let's clean the old data error...
+                    document.querySelectorAll('.error').forEach((el) => {
+                        el.textContent =  '';
+                    })
+                    response.errors
+                        .forEach((error,k) => {
+                            document.getElementById(`${error.path}_error`).textContent =  '';
+                            document.getElementById(`${error.path}_error`).textContent =  error.msg;
+                        })
+
+                    return;
+                }
+
+                alert('Post Added Successfully 🎉');
+                location.assign('/admin/blogs');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     });
 </script>
 <%- include('../partials/footer.ejs') %>

@@ -6,7 +6,7 @@
     <!-- Post Section -->
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">
         <% if (blog && blog.isLoaded()) { %>
-            <article class="flex flex-col shadow my-4">
+            <article class="w-full flex flex-col shadow my-4">
                 <!-- Article Image -->
                 <a href="#" class="hover:opacity-75">
                     <img src="<%= blog.getThumbnail() %>">
@@ -16,93 +16,80 @@
                         <a href="#" class="text-blue-700 text-sm font-bold uppercase pb-4"><%= category %></a>
                     <% }); %>
                     <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4"><%= blog.getTitle() %></a>
-                    <p class="text-sm pb-8">
-                         <span class="text-green-600"><i class="fas fa-user"></i>
-                                            By <a href="#" class="font-semibold hover:text-gray-800"><%= blog?.user?.getFullName() %></a>
-                                            </span>,
-                        <span class="text-yellow-600"><i class="fas fa-thumbs-up"></i> Published on <%= blog.getPublishedAt() %> </span>,
-                        <span class="text-blue-600"><i class="fas fa-clock"></i> Read Time <%= blog.calculateEstimatedReadTime() %> Mins</span>
-                        <span class="text-yellow-600"><i class="fas fa-eye"></i> <%= blog.getReadVisits() %> Visits</span>
-                    </p>
-                    <%- blog.getDescription() %>
-
-                    <!-- Tags Section -->
-                    <div>
-                        <h2 class="text-lg font-bold py-4">Tags</h2>
-                        <% blog.getTags().forEach(tag => { %>
-                            <a href="#" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"><%= tag %></a>
-                        <% }); %>
-                    </div>
-
-                    <!-- Emojis Section -->
-                    <div>
-                        <h2 class="text-lg font-bold py-4">Reactions</h2>
-                        <!-- Assuming emojis is an object where the key is the emoji and the value is the count -->
-                        <%  blog.getReactions().forEach(([emoji, count]) => { %>
-                            <span><%= emoji %> <%= count %></span>
-                        <% }); %>
-                    </div>
-
-                        <!-- Comments Section -->
-                        <div>
-                            <h2 class="text-lg font-bold py-4">Comments</h2>
-                            <% blog.comments.forEach(comment => { %>
-                                <div class="bg-gray-200 p-4 my-2 rounded">
-                                    <h3 class="font-bold">
-                                        <%= comment?.user?.attributes?.full_name %>
-                                        <span class="inline-block bg-<%= comment?.user?.attributes?.is_admin === 1 ? 'blue' : 'green' %>-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2">
-                                            <% if(comment?.user?.attributes?.is_admin === 1) { %>
-                                                Admin
-                                            <% } else { %>
-                                                User
-                                            <% } %>
-                                        </span>
-                                        </h3>
-                                    <p><%= comment?.attributes?.comment %></p>
-
-                                    <!-- Replies -->
-                                    <% comment?.replies?.forEach((reply, key, replies) => { %>
-                                        <div class="bg-gray-100 p-3 my-2 rounded ml-8">
-                                            <h4 class="font-bold">
-                                                <%= reply?.user?.attributes?.full_name %>
-                                                <span class="inline-block bg-<%= reply?.user?.attributes?.is_admin === 1 ? 'blue' : 'green'%>-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2">
-                                                    <% if(reply?.user?.attributes?.is_admin === 1) { %>
-                                                        Admin
-                                                    <% } else { %>
-                                                        User
-                                                    <% } %>
-                                                </span>
-                                            </h4>
-                                            <p><%= reply?.attributes?.comment %></p>
-                                        </div>
-
-                                    <% }); %>
-                                    <!-- Reply Form -->
-                                    <div class="mt-3 ml-8" data-comment-id="<%= comment?.attributes?.id %>">
-                                        <form class="exist-comment" data-id="<%= comment?.attributes?.id %>" action="">
-                                            <textarea id="exist-comment-value" class="w-full h-24 p-2 rounded border new-comment-exist" placeholder="Your reply..."></textarea>
-                                            <input type="hidden" class="exist-comment-reply-id" id="exist-comment-reply-id" value="<%= comment?.attributes?.id %>">
-                                            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">
-                                                Post Reply
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            <% }); %>
-
-                            <!-- Comment Form -->
-                            <div class="mt-3">
-                                <form  id="new-comment" action="">
-                                    <textarea class="w-full h-24 p-2 rounded border" id="new-comment-value" placeholder="Your comment..."></textarea>
-                                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">
-                                        Post Comment
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-
-
+                    <div id="desc"></div>
                 </div>
+
+<div class="w-full flex flex-col text-center md:text-left shadow bg-white mt-10 mb-10 p-6">
+<!-- Comments Section -->
+    <h2 class="text-lg font-bold py-4">Comments</h2>
+    <% blog.comments.forEach(comment => { %>
+        <div class="bg-gray-200 p-4 my-2 rounded">
+            <h3 class="font-bold">
+                <%= comment?.user?.attributes?.full_name %>
+                <span class="inline-block bg-<%= comment?.user?.attributes?.is_admin === 1 ? 'blue' : 'green' %>-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2">
+                    <% if(comment?.user?.attributes?.is_admin === 1) { %>
+                        Admin
+                    <% } else { %>
+                        User
+                    <% } %>
+                </span>
+                <span class="inline-block bg-<% if(comment?.attributes?.published_at != null) { %>orange<% } else if (comment?.user?.attributes?.id === locals?.currentUser?.attributes?.id) { %>pink<% } %>-400 rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2">
+                    <% if(comment?.attributes?.published_at != null) { %>
+                        Approved at <b><%= locals?.helpers?.fromUnixTime(comment?.attributes?.published_at).toLocaleString() %></b>
+                    <% } else if (comment?.user?.attributes?.id === locals?.currentUser?.attributes?.id) { %>
+                            Awaiting Approval <b>(Seen By You Only!)</b>
+                    <% } %>
+                </span>
+            </h3>
+            <p><%= comment?.attributes?.comment %></p>
+
+            <!-- Replies -->
+            <% comment?.replies?.forEach((reply, key, replies) => { %>
+                <div class="bg-gray-100 p-3 my-2 rounded ml-8">
+                    <h4 class="font-bold">
+                        <%= reply?.user?.attributes?.full_name %>
+                        <span class="inline-block bg-<%= reply?.user?.attributes?.is_admin === 1 ? 'blue' : 'green'%>-600 rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2">
+                            <% if(reply?.user?.attributes?.is_admin === 1) { %>
+                                Admin
+                            <% } else { %>
+                                User
+                            <% } %>
+                        </span>
+                        <span class="inline-block bg-<% if(reply?.attributes?.published_at != null) { %>orange<% } else if (reply?.user?.attributes?.id === locals?.currentUser?.attributes?.id) { %>pink<% } %>-400 rounded-full px-3 py-1 text-sm font-semibold text-gray-100 mr-2 mb-2">
+                            <% if(reply?.attributes?.published_at != null) { %>
+                                Approved at <b><%= locals?.helpers?.fromUnixTime(reply?.attributes?.published_at).toLocaleString() %></b>
+                            <% } else if (reply?.user?.attributes?.id === locals?.currentUser?.attributes?.id) { %>
+                                Awaiting Approval <b>(Seen By You Only!)</b>
+                            <% } %>
+                        </span>
+                    </h4>
+                    <p><%= reply?.attributes?.comment %></p>
+                </div>
+
+            <% }); %>
+            <!-- Reply Form -->
+            <div class="mt-3 ml-8" data-comment-id="<%= comment?.attributes?.id %>">
+                <form class="exist-comment" data-id="<%= comment?.attributes?.id %>" action="">
+                    <textarea id="exist-comment-value" class="w-full h-24 p-2 rounded border new-comment-exist" placeholder="Your reply..."></textarea>
+                    <input type="hidden" class="exist-comment-reply-id" id="exist-comment-reply-id" value="<%= comment?.attributes?.id %>">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">
+                        Post Reply
+                    </button>
+                </form>
+            </div>
+        </div>
+    <% }); %>
+
+    <!-- Comment Form -->
+    <div class="mt-3">
+        <form  id="new-comment" action="">
+            <textarea class="w-full h-24 p-2 rounded border" id="new-comment-value" placeholder="Your comment..."></textarea>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3">
+                Post Comment
+            </button>
+        </form>
+    </div>
+</div>
             </article>
         <% } else { %>
             <p>No Results</p>
@@ -115,6 +102,23 @@
 </main>
 
 <script>
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        console.log(html,txt.value )
+        return txt.value;
+    }
+
+    const desc = '<%- blog.getDescription() %>';
+    const descDiv = document.getElementById('desc');
+    descDiv.innerHTML = decodeHtml(desc);
+
+    const emojisPlaceHolder = document.getElementById('emojis');
+    /**
+     * this post is resposable for sending any data in order
+     * to create comment/reply comment to server
+     * @param data
+     */
     function postComment(data) {
         const post_id = location.pathname.split('/')[2].split('-')[0]
         console.log(data, post_id)
@@ -123,24 +127,32 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'want-json': true
             },
             body: JSON.stringify(data),
-        }).then(response => response.json())
+        })
             .then(data => {
-                // Update UI with the new comment
-                alert('Comment Added Successfully 🎉')
-
-                location.reload();
-
+                const response = data.json();
+                const status = data.status;
+                if (status === 401) {
+                    alert('Please login, in order to comments!')
+                } else {
+                    alert('Comment Added Successfully 🎉');
+                    location.reload();
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-
     }
+
+    /**
+     *  get the `new-comment` element and listen for `submit` event
+     *  in case a user make a hit for the submit, we are getting the `value`
+     *  then, pass it to the `postComment`
+     */
     document.getElementById('new-comment').addEventListener('submit', function(event) {
         event.preventDefault();
-
         const comment = document.getElementById('new-comment-value').value;
 
         postComment({comment, reply_id: null })
@@ -155,13 +167,37 @@
     document.querySelectorAll('.exist-comment').forEach(form => {
         form.addEventListener('submit', function(event) {
             event.preventDefault();
-
             const comment = this.querySelector('#exist-comment-value').value;
             const reply_id = this.querySelector('#exist-comment-reply-id').value;
-
             postComment({comment, reply_id })
         });
     });
+
+    const onEmojiSelect = (event, ev) => {
+        console.log(event, ev)
+    }
+
+    const onClickOutside = (onClickOutside, onClickOutsidee) => {
+        console.log(onClickOutside, onClickOutsidee)
+        // emojisPlaceHolder.innerHTML = ''
+    }
+    const onAddCustomEmoji = (onAddCustomEmojiEvent, onAddCustomEmojiEvents) => {
+        console.log(onAddCustomEmojiEvents, onAddCustomEmojiEvent)
+    }
+
+
+
+    document.getElementById('emojis-needed').addEventListener('click', function (event) {
+        const pickerOptions = {
+            onEmojiSelect,
+            onClickOutside,
+            skin: 5,
+            onAddCustomEmoji,
+        }
+        const picker = new EmojiMart.Picker(pickerOptions);
+
+        emojisPlaceHolder.appendChild(picker);
+    })
 
 </script>
 

@@ -2,10 +2,10 @@ const Model = require('./baseModel');
 const User = require('./user');
 const Comment = require('./comment');
 const { strLimit } = require('./../helpers/capitalize')
-const { formatDistance, subDays } =  require('date-fns')
+const { formatDistance, subDays, format, parseISO} =  require('date-fns')
 const {th} = require("date-fns/locale");
 const {dump} = require("../helpers/capitalize");
-
+var fromUnixTime = require('date-fns/fromUnixTime')
 class Blog extends Model {
     constructor(blogs = {}) {
         super('posts', blogs, {
@@ -20,7 +20,7 @@ class Blog extends Model {
                 'subtitle': null,
                 'created_at': null,
                 'deleted_at': null,
-                'modified_at': null,
+                'updated_at': null,
                 'author_name': null,
                 'read_visits': null
             }
@@ -93,22 +93,26 @@ class Blog extends Model {
 
 
     calculateEstimatedReadTime() {
-        if( this.attributes?.description) {
+        if(['', "", null, undefined].includes(this.attributes?.description)) {
             return 0;
         }
-        // Set the average reading speed in words per minute
+        /**
+         * according to @see https://www.sciencedirect.com/science/article/abs/pii/S0749596X19300786#:~:text=The%20average%20oral%20reading%20rate,of%20reading%2Dspecific%20language%20processing.
+         * the average between 183 and 238 so here I but 200.just for demonstration purpose
+         * @type {number}
+         */
         const averageReadingSpeed = 200;
-
-        // Remove HTML tags and extra whitespaces from the content
+        // i'm clean up html tags save from rich text editor
         const cleanedContent = this.attributes?.description?.replace(/<[^>]+>/g, '').trim();
 
-        // Split the content into words
         const words = cleanedContent?.split(/\s+/);
 
-        // Calculate the estimated read time
-        const wordCount = words?.length;
+        return Math.ceil(this.getTotalWordsCount(words) / averageReadingSpeed) || 0;
+    }
 
-        return Math.ceil(wordCount / averageReadingSpeed) || 0;
+    getTotalWordsCount(words = null) {
+
+        return words != null ? words?.length : this.attributes?.description?.replace(/<[^>]+>/g, '')?.trim()?.length;
     }
 
 
@@ -177,13 +181,9 @@ class Blog extends Model {
 
     getReadVisits() {
 
-        return this.attributes.read_visits;
+        return this.attributes.read_visits || 0;
     }
 
-    getPublishedAt() {
-
-        return formatDistance(subDays(new Date(), 3), new Date(), { addSuffix: true })
-    }
     getDescription() {
 
         return this.attributes?.description || ''
@@ -191,7 +191,7 @@ class Blog extends Model {
 
     async getComments () {
 
-        console.log(this.comments)
+        // console.log(this.comments)
         // if (this.comments.length) {}
         // let's get the comments for this blogs
         let postComments = await (new Comment()).findBy({post_id: this.getId()});

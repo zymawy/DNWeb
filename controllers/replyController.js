@@ -20,6 +20,11 @@ class ReplyController {
             data.parent_id = reply_id;
         }
 
+        // in case it's admin let's published the comment direct
+        if (res.locals.isAdmin) {
+            data.published_at = getUnixTime(new Date());
+        }
+
         CommentModel.create(data)
         return res.json({comment, reply_id})
     }

@@ -1,0 +1,99 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/nav.ejs') %>
+<div class="container mx-auto flex flex-wrap py-6">
+    <section class="w-full md:w-2/1 flex flex-col items-center px-3">
+        <div class="container mx-auto px-4 sm:px-12">
+            <div>
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <h2 class="text-2xl font-semibold leading-tight"><i class="fas fa-blog"></i> Users </h2>
+                </div>
+            </div>
+            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                <div
+                        class="inline-block min-w-full shadow-md rounded-lg overflow-hidden"
+                >
+                    <% if (locals.users && users.length)  { %>
+                        <table class="min-w-full leading-normal">
+                            <thead>
+                            <tr>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> User Name </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Email </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Rule </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Created At </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% users.forEach(user => { %>
+                                <tr>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="flex">
+                                            <div class="flex-shrink-0 w-10 h-10">
+                                                <img
+                                                        class="w-full h-full rounded-full"
+                                                        src="<%= user.getThumbnail() %>"
+                                                        alt=""
+                                                />
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-gray-900 whitespace-no-wrap">
+                                                    <a href="/admin/blogs/<%= user.getId() %>"> <%= locals.helpers.strLimit(user.getFullName(), 40, '...') %> </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                <a>
+                                                    <%= user.getEmail()  %>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight"><span aria-hidden class="absolute inset-0 bg-<%= user.getIsAdmin() ? 'green' : 'orange' %>-300 opacity-50 rounded-full"></span><span class="relative"><%= user.getRole()  %></span></span>
+
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                <a>
+                                                    <%= user.getCreatedAt()  %>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        No users yat <a href="/admin/blogs/create" class="button"> create One</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+    <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
+    </aside>
+</div>
+<script>
+    function deletePost(postId) {
+        const isConfirmed = confirm("Sure you want to delete post?");
+
+        if (isConfirmed === false) {
+            return;
+        }
+
+        fetch(`/admin/blogs/${postId}`, {
+            method: "DELETE",
+        }).then((res) => res.json())
+            .then((res) => location.reload());
+    }
+</script>
+<%- include('../partials/footer.ejs') %>

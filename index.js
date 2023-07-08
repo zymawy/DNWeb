@@ -6,9 +6,11 @@ const cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.APP_PORT;
 app.use(express.static(path.join(__dirname, "/public")));
+app.use(express.static(path.join(__dirname, "/uploads")));
 global.db = require("./database.js")
 const session = require('express-session')
 const ejs = require("ejs");
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(session({ secret: process.env.JWT_SECRET_KEY}))
@@ -20,10 +22,3 @@ app.set("view engine", "ejs");
 
 app.engine("html", ejs.renderFile);
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
-
-// error handler
-app.use(function (err, req, res, next) {
-    res.status(500).json({
-        error: err.message,
-    });
-});

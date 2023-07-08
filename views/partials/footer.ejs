@@ -14,17 +14,6 @@
 </footer>
 
 <script>
-    function debounce(func, wait) {
-        let timeout;
-
-        return (...args) => {
-            clearTimeout(timeout);
-
-            timeout = setTimeout(() => func.apply(this, args), wait);
-        };
-    }
-
-
     function getCarouselData() {
         return {
             currentIndex: 0,
@@ -51,14 +40,16 @@
     const searchInput = document.getElementById('search-input');
     const autocompleteResults = document.getElementById('autocomplete-results');
 
-    const debouncedSearch = debounce(async function(event) {
+    searchInput.addEventListener('input', async function(event) {
         const searchQuery = event.target.value;
 
-        if (searchQuery.length > 0) {
+        if (searchQuery.length > 3) {
             if (ongoingFetch) {
                 ongoingFetch.abort();
             }
 
+            // using AbortController to cancel requests and avoid sending
+            // multi requests, I can't seem to grasp its concept yat…
             const controller = new AbortController();
             ongoingFetch = controller;
 
@@ -85,9 +76,7 @@
         } else {
             autocompleteResults.innerHTML = '';
         }
-    }, 300); // Change this to the desired debounce time in milliseconds
-
-    searchInput.addEventListener('input', (event) => debouncedSearch(event));
+    });
 
 
 </script>

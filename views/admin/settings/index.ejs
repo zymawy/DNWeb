@@ -1,0 +1,78 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/nav.ejs') %>
+
+<div class="container mx-auto py-6">
+    <div class="flex flex-wrap px-3">
+        <div class="w-full mb-4 md:mb-0">
+            <div class="bg-white rounded shadow p-6">
+                <h2 class="text-2xl font-bold mb-6">General Settings</h2>
+                <% if (settings.length)  { %>
+                <form id="create-settings" action="/admin/blogs/create">
+                    <% settings.forEach(setting => { %>
+                    <div class="mb-6">
+                        <label for="<%= setting.getKey() %>" class="block text-lg font-bold mb-2"><%= locals.helpers.capitalizeString(setting.getKey()) %> : </label>
+                        <input value="<%= setting ? setting.getValue() : '' %>"
+                               type="text" id="<%= setting.getKey() %>" name="<%= setting.getKey() %>" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+                        <div id="<%= setting.getKey() %>_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
+                    </div>
+                    <% })} %>
+
+                    <a href="/admin/blogs" class="bg-black text-white px-6 py-3 rounded hover:bg-blue-600">Go back</a>
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    const form = document.getElementById('create-settings')
+
+    form.addEventListener('submit', function (evt)  {
+        evt.preventDefault();
+
+        const formData = {}
+
+        this.querySelectorAll('input').forEach((el) => {
+            formData[el.name] = el.value
+        })
+
+        let uri = `/admin/settings`,
+            method = "POST"
+
+        fetch(uri, {
+            method: method,
+            body: JSON.stringify(formData),
+            headers: { 'Content-Type': 'application/json'}
+        })
+            .then(async data => {
+                const response = await data.json();
+                console.log(response)
+                const { status } = data;
+
+                if (status === 422 && response.errors) {
+                    // let's clean the old data error...
+                    document.querySelectorAll('.error').forEach((el) => {
+                        el.textContent =  '';
+                    })
+                    response.errors
+                        .forEach((error,k) => {
+                            document.getElementById(`${error.path}_error`).textContent =  '';
+                            document.getElementById(`${error.path}_error`).textContent =  error.msg;
+                        })
+
+                    return;
+                }
+
+                alert('Settings Updated Successfully 🎉');
+                location.assign('/admin/blogs');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
+<%- include('../partials/footer.ejs') %>

@@ -1,0 +1,94 @@
+<%- include('../partials/header.ejs') %>
+
+<%- include('../partials/nav.ejs') %>
+<div class="container mx-auto flex flex-wrap py-6">
+    <section class="w-full md:w-2/1 flex flex-col items-center px-3">
+        <div class="container mx-auto px-4 sm:px-12">
+            <div>
+                <div class="inline-flex rounded-md shadow-sm" role="group">
+                    <h2 class="text-2xl font-semibold leading-tight"><i class="fas fa-blog"></i> Categories </h2>
+                    <a href="/admin/categories/create" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">
+                        <i class="fas fa-plus"></i>
+                        Create
+                    </a>
+                </div>
+            </div>
+            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                <div
+                        class="inline-block min-w-full shadow-md rounded-lg overflow-hidden"
+                >
+                    <% if (locals.categories && categories.length)  { %>
+                        <table class="min-w-full leading-normal">
+                            <thead>
+                            <tr>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Name </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Created At </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <% categories.forEach(category => { %>
+                                <tr>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                <a href="/admin/blogs/<%= category.getId() %>"> <%= locals.helpers.strLimit(category.getTitle(), 40, '...') %> </a>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                        <div class="ml-3">
+                                            <p class="text-gray-900 whitespace-no-wrap">
+                                                <a>
+                                                    <%= category.getCreatedAt()  %>
+                                                </a>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
+
+                                        <ul class="flex text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+                                            <li>
+                                                <a href="/admin/categories/<%= category.getId() %>/edit" class="inline-flex items-center hover:bg-green-700 text-white font-bold rounded px-4 py-2 text-sm border bg-green-500">
+                                                    <i class="fas fa-edit"></i>
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <button onClick="deletePost(<%= category.getId() %>)" class="inline-flex items-center hover:bg-red-700 text-white font-bold rounded px-4 py-2 text-sm border bg-red-500">
+                                                    <i class="fas fa-trash"></i>
+                                                    Delete
+                                                </button>
+                                            </li>
+                                        </ul>
+
+                                    </td>
+                                </tr>
+                            <% }) %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        No categories yat <a href="/admin/blogs/create" class="button"> create One</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </section>
+    <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
+    </aside>
+</div>
+<script>
+    function deletePost(postId) {
+        const isConfirmed = confirm("Sure you want to delete post?");
+
+        if (isConfirmed === false) {
+            return;
+        }
+
+        fetch(`/admin/categories/${postId}`, {
+            method: "DELETE",
+        }).then((res) => res.json())
+            .then((res) => location.reload());
+    }
+</script>
+<%- include('../partials/footer.ejs') %>

@@ -11,7 +11,9 @@ class User extends BaseModel {
             'email': null,
             'password': null,
             'is_admin': null,
-            'bio': null
+            'bio': null,
+            'created_at': null,
+            'updated_at': null,
         });
 
         this.table = 'users';
@@ -41,17 +43,20 @@ class User extends BaseModel {
         return capitalizeString(this.attributes.full_name);
     }
 
+    getRole() {
+       return this.getIsAdmin() ? 'Admin' : 'User';
+    }
+
+    getIsAdmin() {
+        return Boolean(this.attributes.is_admin);
+    }
+
     getId() {
         return this.attributes.id;
     }
     getEmail() {
 
         return this.attributes.email;
-    }
-
-    getIsAdmin() {
-
-        return this.attributes.is_admin;
     }
 
     getThumbnail() {

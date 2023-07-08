@@ -5,6 +5,9 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="<%= locals.platformSubtitle ? platformSubtitle : '' %>">
+    <meta name="keywords" content="<%= locals.platformKeywords ? platformKeywords : '' %>">
+    <meta name="author" content="<%= locals.platformAuthor ? platformAuthor : '' %>">
     <link rel="stylesheet" href="/styles/style.css" type="text/css" />
 
     <style>
@@ -14,9 +17,9 @@
             font-family: karla;
         }
     </style>
-
-    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
     <!-- Font Awesome -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/share-buttons/dist/share-buttons.js"></script>
 </head>
 <body class="font-family-karla h-screen bg-gray-200">

@@ -67,11 +67,14 @@
                     })
             }
 
+            console.log(data.user)
             if (data.user) {
 
-                if (data.user.is_admin) {
+                if (data.user.isAdmin) {
+                    console.log('admin' , data.user.isAdmin)
                     location.assign('/admin');
                 } else {
+                    console.log('user' , data.user.isAdmin)
                     location.assign('/');
                 }
             }

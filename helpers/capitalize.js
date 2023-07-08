@@ -6,7 +6,9 @@ const capitalizeString = (string) => {
 
 
 const strLimit = (string, limit = 100, end = '...') => {
-
+    if ([undefined, null, ''].includes(string)) {
+        return '';
+    }
 	return string.length > limit ? string.substring(0,limit) + end : string;
 }
 
@@ -21,5 +23,7 @@ const dd = (...content) => {
 const dump = (...content) => {
     console.log( content );
 }
-
-module.exports = { capitalizeString, strLimit, isset, dd, dump };
+const slug = (title) => {
+  return title?.toLowerCase()?.replace(/[^a-z0-9]+/g, '-');
+}
+module.exports = { capitalizeString, strLimit, isset, dd, dump, slug };

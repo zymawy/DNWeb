@@ -1,16 +1,7 @@
 <%- include('topbarnav.ejs') %>
 <%- include('menunav.ejs') %>
-
 <div class="relative mx-4">
     <input id="search-input" class="w-full px-3 py-2 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:shadow-outline-blue focus:border-blue-300" type="text" placeholder="Search...">
-
-    <div id="autocomplete-results" class="absolute w-full mt-1 bg-white rounded-md shadow-lg">
-        <!-- Autocomplete results will be inserted here -->
-    </div>
+    <div id="autocomplete-results" class="absolute w-full mt-1 bg-white rounded-md shadow-lg" style="z-index: 99;"></div>
 </div>
-
-<main class="grid gap-3 mx-auto p-4">
-    <!-- Blog post cards section -->
-    <!-- ... -->
-</main>
 
