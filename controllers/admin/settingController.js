@@ -66,6 +66,17 @@ class SettingController {
         return res.status(201).json({title, keywords, author, subtitle})
     }
 
+    /**
+     * The above function parses dummy data, creates posts using the data, and returns the length of the dummy data.
+     * @param req - The `req` parameter is the request object, which contains information about the incoming HTTP request.
+     * @param res - The `res` parameter is the response object that is used to send a response back to the client. It is
+     * typically used to send JSON data, HTML, or other types of responses. In this code snippet, the `res` object is used
+     * to send a JSON response with the length of the
+     * @param next - The `next` parameter is a callback function that is used to pass control to the next middleware
+     * function in the request-response cycle. It is typically used when you want to pass control to the next middleware
+     * function after completing some asynchronous operation in the current middleware function.
+     * @returns The length of the "dummy" array is being returned as a JSON response.
+     */
     async dummy(req, res, next) {
 
         var dummy = JSON.parse(JSON.stringify(DUMMY_DATA));
@@ -73,7 +84,7 @@ class SettingController {
         if (dummy) {
             dummy.forEach((data) => {
                 (new Post()).create({
-                    user_id: 1,
+                    user_id: res.locals.currentUser.getId(),
                     title: data.title,
                     published_at:  getUnixTime(parseISO(data.publishedAt)),
                     'status': 'published',

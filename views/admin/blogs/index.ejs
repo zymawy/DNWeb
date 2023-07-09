@@ -4,13 +4,26 @@
 <div class="container mx-auto flex flex-wrap py-6">
     <section class="w-full md:w-2/1 flex flex-col items-center px-3">
         <div class="container mx-auto px-4 sm:px-12">
-            <div>
-                <div class="inline-flex rounded-md shadow-sm" role="group">
+            <div class="container mx-auto flex flex-wrap py-6">
+                <div class="inline-flex rounded-md shadow-sm">
                     <h2 class="text-2xl font-semibold leading-tight"><i class="fas fa-blog"></i> Posts </h2>
                     <a href="/admin/blogs/create"
                        class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">
                         <i class="fas fa-plus"></i>
                         Create
+                    </a>
+                </div>
+                <div class="inline-flex rounded-md shadow-sm">
+                    <h3 class="text-2xl font-semibold leading-tight"><i class="fas fa-filter"></i> Filters </h3>
+                    <a href="/admin/blogs?state=published"
+                       class=" items-center bg-teal-400 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">
+                        <i class="fas fa-plus"></i>
+                        published only
+                    </a>
+                    <a href="/admin/blogs?state=drifted"
+                       class=" items-center bg-purple-400 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">
+                        <i class="fas fa-plus"></i>
+                        drifted only
                     </a>
                 </div>
             </div>
@@ -54,8 +67,13 @@
                                             </div>
                                             <div class="ml-3">
                                                 <p class="text-gray-900 whitespace-no-wrap">
-                                                    <a href="/admin/blogs/<%= blog.getId() %>"> <%= locals.helpers.strLimit(blog.getTitle(), 40, '...') %> </a>
+                                                    <a target="_blank" href="/blogs/<%= blog.getId() %>"> <%= locals.helpers.strLimit(blog.getTitle(), 40, '...') %> </a>
                                                 </p>
+                                                <button onClick="shareJoy('<%= locals.host + blog.getUrl() %>')"
+                                                        class="inline-flex items-center px-1 py-1 border bg-blue-900 text-white">
+                                                    <i class="fas fa-share-square"></i>
+                                                    Share
+                                                </button>
                                             </div>
                                         </div>
                                     </td>
@@ -99,6 +117,15 @@
                                                     Delete
                                                 </button>
                                             </li>
+                                            <% if (! blog.isPublished()) { %>
+                                            <li>
+                                                <button onClick="publish(<%= blog.getId() %>)"
+                                                        class="inline-flex items-center hover:bg-green-200 text-white font-bold rounded px-4 py-2 text-sm border bg-pink-300">
+                                                    <i class="fas fa-check"></i>
+                                                    publish
+                                                </button>
+                                            </li>
+                                            <% } %>
                                         </ul>
 
                                     </td>
@@ -133,6 +160,24 @@
             method: "DELETE",
         }).then((res) => res.json())
             .then((res) => location.reload());
+    }
+
+    function publish(postId) {
+        const isConfirmed = confirm("Sure you want to approve this post?");
+
+        if (isConfirmed === false) {
+            return;
+        }
+
+        fetch(`/admin/blogs/${postId}/approve`, {
+            method: "PUT",
+        }).then((res) => res.json())
+            .then((res) => location.reload());
+    }
+    function shareJoy(evnt) {
+        console.log(evnt)
+        navigator.clipboard.writeText(evnt);
+        alert('Url Copied To Your Clipboard Successfully 🎉')
     }
 </script>
 <%- include('../partials/footer.ejs') %>
