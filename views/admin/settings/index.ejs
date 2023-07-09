@@ -4,34 +4,60 @@
 
 <div class="container mx-auto py-6">
     <div class="flex flex-wrap px-3">
-        <div class="w-full mb-4 md:mb-0">
+        <div class="w-full md:w-2/3 mb-4 md:mb-0">
             <div class="bg-white rounded shadow p-6">
                 <h2 class="text-2xl font-bold mb-6">General Settings</h2>
                 <% if (settings.length)  { %>
                 <form id="create-settings" action="/admin/blogs/create">
                     <% settings.forEach(setting => { %>
-                    <div class="mb-6">
-                        <label for="<%= setting.getKey() %>" class="block text-lg font-bold mb-2"><%= locals.helpers.capitalizeString(setting.getKey()) %> : </label>
-                        <input value="<%= setting ? setting.getValue() : '' %>"
-                               type="text" id="<%= setting.getKey() %>" name="<%= setting.getKey() %>" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
-                        <div id="<%= setting.getKey() %>_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
-                    </div>
+                        <div class="mb-6">
+                            <label for="<%= setting.getKey() %>"
+                                   class="block text-lg font-bold mb-2"><%= locals.helpers.capitalizeString(setting.getKey()) %>
+                                : </label>
+                            <input value="<%= setting ? setting.getValue() : '' %>"
+                                   type="text" id="<%= setting.getKey() %>" name="<%= setting.getKey() %>"
+                                   class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+                            <div id="<%= setting.getKey() %>_error"
+                                 class="email error show_info text-sm mb-4 w-max text-red-400"></div>
+                        </div>
                     <% })} %>
 
                     <a href="/admin/blogs" class="bg-black text-white px-6 py-3 rounded hover:bg-blue-600">Go back</a>
-                    <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Submit</button>
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Submit
+                    </button>
                 </form>
             </div>
         </div>
+        <aside class="w-full md:w-1/3 flex flex-col items-center px-3">
+            <div class="w-full bg-white shadow flex flex-col p-6">
+                <button onclick="doAction()" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    <i class="fas fa-database"></i>
+                    Seed Dummy Data
+                </button>
+            </div>
+        </aside>
     </div>
-
 </div>
 
 
 <script>
     const form = document.getElementById('create-settings')
 
-    form.addEventListener('submit', function (evt)  {
+    const doAction = async () => {
+        const isConfirmed = confirm("Sure you want to persist dummy/fake data for testing purpose?");
+
+        if (isConfirmed === false) {
+            return;
+        }
+        const data = await fetch('/admin/settings/dummy', {
+            method:"PUT",
+        });
+
+        console.log(data);
+        alert('Data Added Successfully 🎉');
+    }
+
+    form.addEventListener('submit', function (evt) {
         evt.preventDefault();
 
         const formData = {}
@@ -46,22 +72,22 @@
         fetch(uri, {
             method: method,
             body: JSON.stringify(formData),
-            headers: { 'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json'}
         })
             .then(async data => {
                 const response = await data.json();
                 console.log(response)
-                const { status } = data;
+                const {status} = data;
 
                 if (status === 422 && response.errors) {
                     // let's clean the old data error...
                     document.querySelectorAll('.error').forEach((el) => {
-                        el.textContent =  '';
+                        el.textContent = '';
                     })
                     response.errors
-                        .forEach((error,k) => {
-                            document.getElementById(`${error.path}_error`).textContent =  '';
-                            document.getElementById(`${error.path}_error`).textContent =  error.msg;
+                        .forEach((error, k) => {
+                            document.getElementById(`${error.path}_error`).textContent = '';
+                            document.getElementById(`${error.path}_error`).textContent = error.msg;
                         })
 
                     return;

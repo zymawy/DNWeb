@@ -7,7 +7,7 @@
                     class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
                     form="create-post"
             >
-                <option value="unpublished">Unpublished</option>
+                <option value="drafted">Drafted</option>
                 <option value="published">published</option>
             </select>
             <div id="status_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
@@ -39,7 +39,9 @@
         </div>
         <div class="mb-6">
             <label for="categories" class="block text-lg font-bold mb-2">Categories:</label>
-            <select id="categories" name="categories" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500" multiple data-type="categories">
+            <select id="categories" name="categories"
+                    class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                    multiple data-type="categories">
                 <% categories.forEach(category => { %>
                     <option value="<%= category?.attributes?.id %>"
                             <%= locals.postCategory && locals.postCategory.includes(category?.attributes?.id) ? 'selected' : '' %>

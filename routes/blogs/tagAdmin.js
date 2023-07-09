@@ -5,9 +5,7 @@ const {body} = require("express-validator");
 
 
 router.get('/', tagController.index)
-router.post('',
-    body('title').notEmpty().escape().trim().withMessage('Title Cannot Be Empty'),
-    tagController.store)
+router.post('', body('title').notEmpty().escape().trim().withMessage('Title Cannot Be Empty'), tagController.store)
 router.get('/create', tagController.create)
 router.get('/:id/edit', tagController.edit)
 router.delete('/:id', tagController.delete)

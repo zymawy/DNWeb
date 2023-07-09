@@ -7,7 +7,8 @@
             <div>
                 <div class="inline-flex rounded-md shadow-sm" role="group">
                     <h2 class="text-2xl font-semibold leading-tight"><i class="fas fa-blog"></i> Categories </h2>
-                    <a href="/admin/categories/create" class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">
+                    <a href="/admin/categories/create"
+                       class="inline-flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold rounded px-4 py-2 text-sm border">
                         <i class="fas fa-plus"></i>
                         Create
                     </a>
@@ -21,8 +22,12 @@
                         <table class="min-w-full leading-normal">
                             <thead>
                             <tr>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Name </th>
-                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"> Created At </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                    Name
+                                </th>
+                                <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">
+                                    Created At
+                                </th>
                                 <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
                             </tr>
                             </thead>
@@ -40,22 +45,25 @@
                                         <div class="ml-3">
                                             <p class="text-gray-900 whitespace-no-wrap">
                                                 <a>
-                                                    <%= category.getCreatedAt()  %>
+                                                    <%= category.getCreatedAt() %>
                                                 </a>
                                             </p>
                                         </div>
                                     </td>
                                     <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm text-right">
 
-                                        <ul class="flex text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconHorizontalButton">
+                                        <ul class="flex text-sm text-gray-700 dark:text-gray-200"
+                                            aria-labelledby="dropdownMenuIconHorizontalButton">
                                             <li>
-                                                <a href="/admin/categories/<%= category.getId() %>/edit" class="inline-flex items-center hover:bg-green-700 text-white font-bold rounded px-4 py-2 text-sm border bg-green-500">
+                                                <a href="/admin/categories/<%= category.getId() %>/edit"
+                                                   class="inline-flex items-center hover:bg-green-700 text-white font-bold rounded px-4 py-2 text-sm border bg-green-500">
                                                     <i class="fas fa-edit"></i>
                                                     Edit
                                                 </a>
                                             </li>
                                             <li>
-                                                <button onClick="deletePost(<%= category.getId() %>)" class="inline-flex items-center hover:bg-red-700 text-white font-bold rounded px-4 py-2 text-sm border bg-red-500">
+                                                <button onClick="deletePost(<%= category.getId() %>)"
+                                                        class="inline-flex items-center hover:bg-red-700 text-white font-bold rounded px-4 py-2 text-sm border bg-red-500">
                                                     <i class="fas fa-trash"></i>
                                                     Delete
                                                 </button>
@@ -78,6 +86,11 @@
     </aside>
 </div>
 <script>
+    /**
+     * The `deletePost` function is a JavaScript function that is called when,
+     * the user clicks on the "Delete" button for a category in the table.
+     * @param postId
+     */
     function deletePost(postId) {
         const isConfirmed = confirm("Sure you want to delete post?");
 

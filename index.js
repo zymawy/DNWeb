@@ -13,9 +13,9 @@ const ejs = require("ejs");
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(session({ secret: process.env.JWT_SECRET_KEY}))
+app.use(session({secret: process.env.JWT_SECRET_KEY}))
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 require("./routes/main")(app);
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");

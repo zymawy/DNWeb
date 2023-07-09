@@ -1,6 +1,7 @@
 const Blog = require('../models/blog');
 const Comment = require('../models/comment');
 const Tag = require('../models/tag');
+const Category = require('../models/category');
 const User = require('../models/User');
 
 /* The BlogController class is responsible for handling requests related to blog posts, including displaying a list of
@@ -101,7 +102,7 @@ class BlogController {
         let id = req.params.id.split('-')[0] ?? null;
 
         if (! id) {
-          return res.redirect('not-found');
+          return res.redirect('/not-found');
         }
         // let's get the post by id ...
 
@@ -109,7 +110,7 @@ class BlogController {
 
         // in case we don't have any post let's make early return ...
         if(! post.isLoaded() || ! post.isPublished()) {
-            return res.redirect('not-found');
+            return res.redirect('/not-found');
         }
 
        // let's get the comments for this blogs
@@ -117,6 +118,8 @@ class BlogController {
 
        // let's find the tags ...
         let postTags = await (new Tag()).findBys({post_id: post.getId()}, ['postTags']);
+
+        let postCategories = await (new Category()).findBys({post_id: post.getId()}, ['postCategory']);
 
         if (Array.isArray(postComments) || (! Array.isArray(postComments) && typeof postComments === 'object' && postComments.isLoaded())) {
 
@@ -129,6 +132,12 @@ class BlogController {
             post.tags = (! Array.isArray(postTags) && typeof postTags === 'object' && postTags.isLoaded()) ? [postTags] : postTags
         } else  {
             post.tags = [];
+        }
+
+        if (Array.isArray(postCategories) || (! Array.isArray(postCategories) && typeof postCategories === 'object' && postCategories.isLoaded())) {
+            post.categories = (! Array.isArray(postCategories) && typeof postCategories === 'object' && postCategories.isLoaded()) ? [postCategories] : postCategories
+        } else  {
+            post.categories = [];
         }
 
         // for now let's keep it like this untill we find better approach
