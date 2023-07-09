@@ -20,9 +20,10 @@ const HelpersMiddleware = async (req, res, next) => {
     res.locals.host = req.get('host');
     res.locals.protocol = req.protocol;
     res.locals.isActiveLink = (link) => {
-        // console.log(link, req.originalUrl)
-        return link == req.originalUrl
+        // console.log(req.originalUrl.replace('admin/blogs/', ''), link.replace('admin/', ''))
+        return req.originalUrl.replace('admin/blogs/', '').includes(link.replace('admin/', ''))
     }
+
     next();
 }
 

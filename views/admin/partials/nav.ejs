@@ -2,18 +2,18 @@
 <nav class="w-full py-4 border-t border-b bg-gray-100">
     <div class="w-full flex-grow sm:flex sm:items-center sm:w-auto">
         <div class="w-full container mx-auto flex flex-col sm:flex-row items-center justify-center text-sm font-bold uppercase mt-0 px-6 py-2">
-            <a href="/" class="hover:bg-gray-400 active rounded py-2 px-4 mx-2"><i class="fas fa-blog"></i> Visit
+            <a href="/blogs" target="_parent" class="bg-yellow-200 rounded py-2 px-4 mx-2"><i class="fas fa-home"></i> Visit
                 Blog </a>
-            <a href="/admin" class="<%= locals.isActiveLink('/admin/blogs') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i class="fas fa-blog"></i> Posts</a>
-            <a href="/admin/blogs/comments" class="<%= locals.isActiveLink('/admin/blogs/comments') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i
+            <a href="/admin" class="<%= locals.isActiveLink('/blogs') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i class="fas fa-blog"></i> Posts</a>
+            <a href="/admin/blogs/comments" class="<%= locals.isActiveLink('/comments') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i
                         class="fas fa-comments"></i> Comments</a>
-            <a href="/admin/categories" class="<%= locals.isActiveLink('/admin/categories') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i
+            <a href="/admin/categories" class="<%= locals.isActiveLink('/categories') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i
                         class="fas fa-list"></i> Categories </a>
-            <a href="/admin/tags" class="<%= locals.isActiveLink('/admin/tags') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i class="fas fa-tags"></i>
+            <a href="/admin/tags" class="<%= locals.isActiveLink('/tags') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i class="fas fa-tags"></i>
                 Tags</a>
-            <a href="/admin/blogs/users" class="<%= locals.isActiveLink('/admin/blogs/users') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i class="fas fa-users"></i>
+            <a href="/admin/blogs/users" class="<%= locals.isActiveLink('/users') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i class="fas fa-users"></i>
                 Users</a>
-            <a href="/admin/settings" class="<%= locals.isActiveLink('/admin/settings') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i class="fas fa-tools"></i>
+            <a href="/admin/settings" class="<%= locals.isActiveLink('/settings') ? 'bg-blue-400' : '' %> rounded py-2 px-4 mx-2"><i class="fas fa-tools"></i>
                 Settings</a>
                 <button class="flex items-center text-sm font-medium text-gray-900 rounded-full hover:text-blue-600 dark:hover:text-blue-500 md:mr-0 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-white"
                         type="button">

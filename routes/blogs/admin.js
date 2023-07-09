@@ -58,6 +58,7 @@ router.post('/:id?', upload.single('image'), body('title').notEmpty().escape().t
 router.get('/create', blogController.create);
 router.get('/:id/edit', blogController.edit);
 router.delete('/:id', blogController.delete);
+router.put('/:id/approve', blogController.approve);
 
 // comments
 

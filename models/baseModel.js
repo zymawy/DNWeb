@@ -127,7 +127,7 @@ class BaseModel {
      * the following properties:
      * @returns the result of a database query.
      */
-    findBy(params, withRelations = [], notNullParams = [], options = {}) {
+    findBy(params, withRelations = [], notNullParams = [], options = {}, nullParams = []) {
         // let conditions = Object.keys(params).map(field => `${this.table}.${field} = ?`).join(' AND ');
         // let conditions = Object.keys(params).map(field => {
         //     return params[field] === null ? `${this.table}.${field} IS ?` : `${this.table}.${field} = ?`;
@@ -141,7 +141,11 @@ class BaseModel {
             return `${this.table}.${field} IS NOT NULL`;
         });
 
-        let allConditions = conditions.concat(notNullConditions).join(' AND ');
+        let nullConditions = nullParams.map(field => {
+            return `${this.table}.${field} IS NULL`;
+        });
+
+        let allConditions = conditions.concat(notNullConditions).concat(nullConditions).join(' AND ');
         let bindings = Object.values(params);
         const baseModelColumns = Object.keys(this.attributes).map(attribute => `${this.table}.${attribute} as ${this.table}_${attribute}`).join(', ');
         let query = `SELECT ${baseModelColumns}`;

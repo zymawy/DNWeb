@@ -5,6 +5,7 @@ const PostCategory = require('../../models/postCategory')
 const Category = require('../../models/category')
 const {getUnixTime} = require("date-fns");
 const {validationResult} = require("express-validator");
+const Comment = require("../../models/comment");
 
 /* The BlogController class handles the CRUD operations for blog posts, including retrieving all posts, creating and
 editing posts, and deleting posts. */
@@ -34,7 +35,20 @@ class BlogController {
      */
     async index(req, res, next) {
 
-        const posts = await (new Blog()).findBy({}, ['user'], [], {order: 'desc', by: 'posts.id'});
+        const {state} = req.query;
+        const query = {};
+        let notNullable = [];
+        let nullable = [];
+        if (state === 'published') {
+            notNullable.push('published_at');
+            nullable = [];
+        } else if(state === 'drifted') {
+            notNullable = [];
+            nullable.push('published_at')
+
+        }
+        console.log(nullable)
+        const posts = await (new Blog()).findBy({}, ['user'], notNullable, {order: 'desc', by: 'posts.id'}, nullable);
 
         return res.render(this.path + 'index', {posts: posts, title: 'All blogs'});
     }
@@ -54,6 +68,10 @@ class BlogController {
     async edit(req, res, next) {
 
         const post = await (new Blog()).findBy({id: req.params.id});
+        if (! post) {
+            return res.redirect('not-found');
+        }
+
         const tags = await (new Tag).findAll({});
         const categories = await (new Category()).findAll({});
         let postTags = await (new PostTag()).findBy({post_id: req.params.id})
@@ -69,7 +87,7 @@ class BlogController {
         }
 
         // return res.json({post, title:"Create Post", tags, categories,postCategory, postTags})
-        return res.render(this.path + 'create', {post, title: "Create Post", tags, categories, postCategory, postTags});
+        return res.render(this.path + 'create', {post, title: "Edit " + post.getTitle(), tags, categories, postCategory, postTags});
     }
 
     /**
@@ -191,6 +209,14 @@ class BlogController {
         await (new Blog()).delete({id: id})
 
         return res.status(200).json(id);
+    }
+
+    async approve(req, res, next) {
+        const {id} = req.params
+
+        const c = await (new Blog()).update({id: id}, {'published_at':  getUnixTime(new Date())}, {touchTimestamp: true, updating: true })
+
+        return res.status(200).json(c);
     }
 }
 
