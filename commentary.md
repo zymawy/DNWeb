@@ -19,7 +19,7 @@ in the this file `views/blogs/show.ejs`
 | ![](/Users/zymawy/Code/school/apr-2023/dnw/commentary/comments-ejs.png) |
 | ----------------------------------------------------------------------- |
 
-The comment on a blog post might first appear as "Awaiting Approval" until the author approves it. Currently, other users cannot see the comment. only unpublished  comment be seen by the user owner, till been reviewed and done by author. Upon approval, the comment becomes "published" and is visible to all users. In the database schema, I use `publishd_at` as `timestamp` in order for me to track the date and time. the author approve the comment abd plus treat as flag of determination of the moderation!. 
+The comment on a blog post might first appear as "Awaiting Approval" until the author approves it. Currently, other users cannot see the comment. only drafted  comment be seen by the user owner, till been reviewed and done by author. Upon approval, the comment becomes "published" and is visible to all users. In the database schema, I use `publishd_at` as `timestamp` in order for me to track the date and time. the author approve the comment abd plus treat as flag of determination of the moderation!. 
 
 | ![](/Users/zymawy/Library/Application%20Support/marktext/images/2023-07-04-08-31-35-image.png) |
 | ---------------------------------------------------------------------------------------------- |

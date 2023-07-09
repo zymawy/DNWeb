@@ -23,13 +23,19 @@
         }
     });
 
+    /**
+     * it's responsible for loading more blog posts when.
+     * the user scrolls to the bottom of the page.
+     * @param page
+     * @returns {Promise<void>}
+     */
     async function loadMorePosts(page) {
         try {
             const response = await fetch(`/blogs?page=${page}&scrolling=1`);
 
             const contents = await response.text();
 
-            if (! [undefined, "", null, "No Data"].includes(contents.trim())) {
+            if (![undefined, "", null, "No Data"].includes(contents.trim())) {
                 container.insertAdjacentHTML('beforeend', contents);
                 loading = false;
             } else {

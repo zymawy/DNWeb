@@ -8,11 +8,13 @@
             <div class="bg-white rounded shadow p-6">
                 <h2 class="text-2xl font-bold mb-6">Create Blog Post</h2>
                 <form id="create-post" action="/admin/blogs/create" enctype="multipart/form-data">
-                        <input type="hidden" id="post_id" value="<%= locals.post ? locals.post.getId() : '' %>" name="post_id" />
+                    <input type="hidden" id="post_id" value="<%= locals.post ? locals.post.getId() : '' %>"
+                           name="post_id"/>
                     <div class="mb-6">
                         <label for="title" class="block text-lg font-bold mb-2">Post Title:</label>
                         <input value="<%= locals.post ? post.getTitle() : '' %>"
-                                type="text" id="title" name="title" class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
+                               type="text" id="title" name="title"
+                               class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-blue-500">
                         <div id="title_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
                     </div>
                     <div class="mb-6">
@@ -32,7 +34,8 @@
                         </div>
                         <div id="desc_error" class="email error show_info text-sm mb-4 w-max text-red-400"></div>
                     </div>
-                    <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Submit</button>
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-600">Submit
+                    </button>
                 </form>
             </div>
         </div>
@@ -44,16 +47,24 @@
 
 <script>
     // https://stackoverflow.com/a/7394787/6531160
+    /**
+     * The `decodeHtml` function is used to decode HTML entities in a given string.
+     * It creates a temporary textarea element, sets the HTML content of the textarea to the input `html` string,
+     * and then retrieves the value of the textarea. This process effectively decodes any HTML entities present in the `html` string.
+     * The decoded string is then returned by the function.
+     * @param html
+     * @returns {string}
+     */
     function decodeHtml(html) {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
-        console.log(html,txt.value )
+        console.log(html, txt.value)
         return txt.value;
     }
 
     const form = document.getElementById('create-post')
     var tags = [],
-    categories = [];
+        categories = [];
 
     <% if (locals.postCategory) { %>
     categories = [<%= locals.postCategory %>]
@@ -70,7 +81,7 @@
 
     // in case it's edit le'ts append the desc...
     <% if (locals.post) { %>
-        editor.pasteHTML(decodeHtml('<%- post.getDescription() %>'))
+    editor.pasteHTML(decodeHtml('<%- post.getDescription() %>'))
     <% } %>
     // Pass single element
     const elements = document.querySelectorAll('select[multiple]');
@@ -157,17 +168,17 @@
     elements.forEach((element) => {
         const choices = new Choices(element, choicesOptions);
 
-        const type =  element?.dataset?.type;
+        const type = element?.dataset?.type;
         if (type === 'tags') {
             console.log(tags)
             choices.setChoiceByValue(tags)
-        } else if(type === 'categories') {
+        } else if (type === 'categories') {
             console.log(categories)
             choices.setChoiceByValue(categories)
         }
         element.addEventListener(
             'addItem',
-            function(event) {
+            function (event) {
 
                 // tags.push(event.detail.value.trim());
                 // do something creative here...
@@ -175,7 +186,7 @@
                 if (type === 'tags') {
                     console.log(type, 'tags')
                     tags.push(event.detail.value.trim())
-                } else if(type === 'categories') {
+                } else if (type === 'categories') {
                     console.log(type, 'categories')
                     categories.push(event.detail.value.trim())
                 }
@@ -192,7 +203,7 @@
     statusChoice.setChoiceByValue('<%= post.getPublishedState() %>')
     <% } %>
 
-    form.addEventListener('submit', function (evt)  {
+    form.addEventListener('submit', function (evt) {
         evt.preventDefault();
 
         const title = document.querySelector('input#title').value;
@@ -234,17 +245,17 @@
             .then(async data => {
                 const response = await data.json();
                 console.log(response)
-                const { status } = data;
+                const {status} = data;
 
                 if (status === 422 && response.errors) {
                     // let's clean the old data error...
                     document.querySelectorAll('.error').forEach((el) => {
-                        el.textContent =  '';
+                        el.textContent = '';
                     })
                     response.errors
-                        .forEach((error,k) => {
-                            document.getElementById(`${error.path}_error`).textContent =  '';
-                            document.getElementById(`${error.path}_error`).textContent =  error.msg;
+                        .forEach((error, k) => {
+                            document.getElementById(`${error.path}_error`).textContent = '';
+                            document.getElementById(`${error.path}_error`).textContent = error.msg;
                         })
 
                     return;
