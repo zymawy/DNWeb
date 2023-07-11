@@ -29,7 +29,9 @@ class ReplyController {
      * being passed to the view includes the comments and a title.
      */
     async index(req, res, next) {
-        const comments = await (new Comment()).findBy({}, ['user', 'post'], [], {by: 'comments.id', order: 'DESC'});
+        let comments = await (new Comment()).findBy({}, ['user', 'post'], [], {by: 'comments.id', order: 'DESC'});
+
+        comments = (! Array.isArray(comments) && typeof comments === 'object' && comments.isLoaded()) ? [comments] : comments;
 
        return res.render(this.path + 'index', { comments: comments, title: 'All Comments' });
     }

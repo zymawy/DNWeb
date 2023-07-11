@@ -41,15 +41,16 @@ class BlogController {
         const limit = 10; // Number of posts to return per page
         const offset = (page - 1) * limit;
 
-     const posts = await blog.findBy({}, ['user'], [], {
+     const posts = await blog.findBy({}, ['user'], ['published_at'], {
          limit: limit,
          offset: offset,
          by: 'posts.published_at',
-         order: 'ASC',
+         order: 'DESC',
          onlyPublished: true
-     });
+     }, );
 
      if (scrolling) {
+         // console.info(posts)
         return  res.render(this.path + 'blogs', { blogs: Array.isArray(posts) ? posts : [] });
      }
 

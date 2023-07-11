@@ -200,12 +200,21 @@ class BaseModel {
             });
         }
 
-
         if (allConditions) query += ` WHERE ${allConditions}`;
 
         if (options.order && options.by) {
             query += ` ORDER BY ${options.by} ${options.order}`;
         }
+
+        // limit last will be the last sql statement
+        if (options.limit) {
+            query += ` LIMIT ${options.limit}`;
+        }
+
+        if (options.offset) {
+            query += ` OFFSET ${options.offset}`;
+        }
+
         return this.promise(query, bindings, 'all', withRelations);
     }
 
@@ -229,6 +238,7 @@ class BaseModel {
         LEFT JOIN categories on categories.id = post_categories.category_id
         WHERE posts_title LIKE ? OR posts_subtitle LIKE ? OR posts_description LIKE ? OR tags.name LIKE ? OR categories.name LIKE ? LIMIT 10`;
 
+        console.error(query)
         return this.promise(this.query, [`%${query}%`, `%${query}%`, `%${query}%`, `%${query}%`, `%${query}%`])
     }
 
@@ -403,7 +413,10 @@ class BaseModel {
      * @returns a Promise.
      */
     promise(query, binding = [], method = 'all', withRelations = []) {
-        // console.info(query, binding)
+
+        if (process.env.ENABLE_QUERY_DEBUG) {
+            console.info(query, binding)
+        }
         const self = this;
         return new Promise((resolve, reject) => {
             this.db[method](query, binding, function (err, result) {

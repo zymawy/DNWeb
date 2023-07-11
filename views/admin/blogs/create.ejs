@@ -76,7 +76,21 @@
 
     const editor = new Quill('#editor', {
         theme: 'snow',
-        placeholder: 'Let`s write an awesome posts!'
+        placeholder: 'Let`s write an awesome posts!',
+        modules: {
+            // 'syntax': true,
+            'toolbar': [
+                [{ 'font': [] }, { 'size': [] }],
+                [ 'bold', 'italic', 'underline', 'strike' ],
+                [{ 'color': [] }],
+                [{ 'script': 'super' }, { 'script': 'sub' }],
+                [ 'blockquote', 'code-block' ],
+                [{ 'list': 'ordered' }, { 'list': 'bullet'}],
+                [ 'direction', { 'align': [] }],
+                [ 'link' ],
+                [ 'clean' ]
+            ]
+        },
     });
 
     // in case it's edit le'ts append the desc...

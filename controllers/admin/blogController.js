@@ -47,8 +47,10 @@ class BlogController {
             nullable.push('published_at')
 
         }
-        console.log(nullable)
-        const posts = await (new Blog()).findBy({}, ['user'], notNullable, {order: 'desc', by: 'posts.id'}, nullable);
+
+        let posts = await (new Blog()).findBy({}, ['user'], notNullable, {order: 'desc', by: 'posts.id'}, nullable);
+
+        posts = (! Array.isArray(posts) && typeof posts === 'object' && posts.isLoaded()) ? [posts] : posts;
 
         return res.render(this.path + 'index', {posts: posts, title: 'All blogs'});
     }
@@ -72,8 +74,11 @@ class BlogController {
             return res.redirect('not-found');
         }
 
-        const tags = await (new Tag).findAll({});
-        const categories = await (new Category()).findAll({});
+        let tags = await (new Tag).findAll({});
+        let categories = await (new Category()).findAll({});
+        tags = (! Array.isArray(tags) && typeof tags === 'object' && tags.isLoaded()) ? [tags] : tags;
+        categories = (! Array.isArray(categories) && typeof categories === 'object' && categories.isLoaded()) ? [categories] : categories;
+
         let postTags = await (new PostTag()).findBy({post_id: req.params.id})
         let postCategory = await (new PostCategory()).findBy({post_id: req.params.id})
         if (Array.isArray(postCategory) || postCategory.isLoaded()) {
@@ -137,7 +142,7 @@ class BlogController {
         }
         let p = {};
         if (postId) {
-            p = await (new Blog()).update({id: postId}, post);
+            p = await (new Blog()).update({id: postId}, post, {touchTimestamp: true, updating: true});
         } else {
             // let's create the posts with crossing values
             p = await (new Blog()).create(post);
@@ -185,8 +190,12 @@ class BlogController {
      */
     async create(req, res, next) {
 
-        const tags = await (new Tag).findAll({});
-        const categories = await (new Category()).findAll({});
+        let tags = await (new Tag).findAll({});
+        let categories = await (new Category()).findAll({});
+
+        tags = (! Array.isArray(tags) && typeof tags === 'object' && tags.isLoaded()) ? [tags] : tags;
+        categories = (! Array.isArray(categories) && typeof categories === 'object' && categories.isLoaded()) ? [categories] : categories;
+
 
         res.render(this.path + 'create', {title: "Create Post", tags, categories});
     }

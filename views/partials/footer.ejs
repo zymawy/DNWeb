@@ -7,6 +7,48 @@
         <div class="uppercase pb-6">&copy; bloggingtool.com</div>
     </div>
 </footer>
+<script>
+    let ongoingFetch;
+    const searchInput = document.getElementById('search-input');
+    const autocompleteResults = document.getElementById('autocomplete-results');
 
+    searchInput.addEventListener('input', async function(event) {
+        const searchQuery = event.target.value;
+
+        if (searchQuery.length > 3) {
+            if (ongoingFetch) {
+                ongoingFetch.abort();
+            }
+
+            // using AbortController to cancel requests and avoid sending
+            // multi requests, I can't seem to grasp its concept yat…
+            const controller = new AbortController();
+            ongoingFetch = controller;
+
+            try {
+                const response = await fetch(`/blogs/query?q=${searchQuery}`, { signal: controller.signal });
+                const results = await response.json();
+
+                autocompleteResults.innerHTML = results
+                    .sort((a, b) => {
+
+                        return a.attributes.title.localeCompare(b.attributes.title);
+                        // ({ attributes }, { attributes: {attributes1 }}) => attributes.localeCompare(attributes1)
+                    })
+                    .map(({ attributes }) => `<div><a href=/blogs/${attributes.id}-ss> ${attributes.title} </a></div>`).join('');
+
+                ongoingFetch = null;
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    console.log('Fetch aborted');
+                } else {
+                    console.error(error);
+                }
+            }
+        } else {
+            autocompleteResults.innerHTML = '';
+        }
+    });
+</script>
 </body>
 </html>

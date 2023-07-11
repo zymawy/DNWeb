@@ -3,6 +3,10 @@ const categoryController = require('../../controllers/categoryController');
 const Blog = require("../../models/blog");
 const router = express.Router();
 
+/*  defining a route handler for GET requests to the '/categories/:category' endpoint.
+it accepts params
+     - category TEXT/NUMBER, Required
+ */
 router.get('/categories/:category', async function (req, res, next) {
     let category = req.params?.category?.split('-')[0] ?? null;
     if (!category) {
@@ -17,6 +21,11 @@ router.get('/categories/:category', async function (req, res, next) {
     // console.log(posts)
     return res.render('categories/show', {blogs: Array.isArray(posts) ? posts : [posts]});
 });
+
+/*  defining a route handler for GET requests to the '/categories/:tag' endpoint.
+it accepts params
+     - tag TEXT/NUMBER, Required
+ */
 router.get('/tags/:tag', async function (req, res, next) {
 
     let tag = req.params?.tag?.split('-')[0] ?? null;

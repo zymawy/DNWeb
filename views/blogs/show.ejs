@@ -19,7 +19,13 @@
                        <% }); %>
                    </div>
 
-                    <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4"><%= blog.getTitle() %></a>
+                    <h2>
+                        <a href="#" class="text-3xl font-bold hover:text-gray-700 pb-4"><%= blog.getTitle() %></a>
+                    </h2>
+                    <hr />
+                    <h4 class="text-3xl font-bold hover:text-gray-700 pb-4">
+                        <%= blog.getSubTitle() %>
+                    </h4>
                     <!-- Desc will display here throw js see below in script section -->
                     <div id="desc"></div>
                 </div>

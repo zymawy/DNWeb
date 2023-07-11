@@ -29,8 +29,8 @@ class CategoryController {
      * in the view.
      */
     async index(req, res, next) {
-        const categories = await (new Category()).findBy({}, [], [], {'by': 'categories.id', 'order': 'DESC'});
-
+        let categories = await (new Category()).findBy({}, [], [], {'by': 'categories.id', 'order': 'DESC'});
+        categories = (! Array.isArray(categories) && typeof categories === 'object' && categories.isLoaded()) ? [categories] : categories;
         return res.render(this.path + 'index', {categories: categories, title: 'All Categories'});
     }
 

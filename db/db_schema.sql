@@ -15,8 +15,8 @@ CREATE TABLE comments
     published_at DATETIME NULL
 );
 
-CREATE INDEX comments_post_id_reader_id_index ON comments (post_id, reader_id);
-CREATE INDEX comments_post_id_id_reader_id_parent_id_index ON comments (post_id, id, reader_id, parent_id);
+CREATE INDEX comments_post_id_user_id_index ON comments (post_id, user_id);
+CREATE INDEX comments_post_id_id_user_id_parent_id_index ON comments (post_id, id, user_id, parent_id);
 CREATE INDEX comments_post_id_index ON comments (post_id);
 
 CREATE TABLE likes
@@ -75,7 +75,10 @@ CREATE TABLE users
     password  TEXT    NOT NULL,
     is_admin  INTEGER NOT NULL,
     thumbnail TEXT NULL,
-    `bio`     TEXT    NOT NULL
+    `bio`     TEXT NULL,
+    created_at   DATETIME NOT NULL,
+    deleted_at   DATETIME NULL,
+    updated_at   DATETIME NOT NULL
 );
 
 CREATE TABLE posts_likes
@@ -136,3 +139,12 @@ VALUES ('title', 'Blogging Tools!', '{}'),
        ('keywords', 'blog,seo,university of london, london, uol', '{}'),
        ('author', 'Hamza Zymawy', '{}'),
        ('subtitle', 'Tool For Writers!', '{}');
+
+
+
+INSERT INTO `categories` (`name`, `created_at`, `updated_at`, `sort`)
+VALUES ('TECHNOLOGY', 1688869180, 1688869180, 0),
+       ('Sports', 1688869180, 1688869180, 1),
+       ('Politics', 1688869180, 1688869180, 2),
+       ('Culture', 1688869180, 1688869180, 3),
+       ('Finance', 1688869180, 1688869180, 4);

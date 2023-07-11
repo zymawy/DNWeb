@@ -32,8 +32,8 @@ class TagController {
      * to be used in the view.
      */
     async index(req, res, next) {
-        const tags = await (new Tag()).findBy({}, [], [], {'by': 'tags.id', 'order': 'DESC'});
-
+        let tags = await (new Tag()).findBy({}, [], [], {'by': 'tags.id', 'order': 'DESC'});
+        tags = (! Array.isArray(tags) && typeof tags === 'object' && tags.isLoaded()) ? [tags] : tags;
         return res.render(this.path + 'index', {tags: tags, title: 'All Tags'});
     }
 
